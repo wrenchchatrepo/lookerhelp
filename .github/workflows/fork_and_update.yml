@@ -1,0 +1,77 @@
+name: Fork Repo and Update Category
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: "The name of the repo to fork"
+        required: true
+        type: string
+      category:
+        description: "Select the category to assign"
+        required: true
+        default: "AI_ML_Features"
+        type: string
+        options: 
+          - AI_ML_Features
+          - AI_Orchestration
+          - Data_Architect
+          - Data_Engineering
+          - Data_Science
+          - DevOps
+          - GitHub
+          - LLM_Powered
+          - LLMs
+          - Looker_Ecosystem
+          - LookML_Blocks
+          - Notebooks
+          - Python
+          - Visualization
+          - Web_Dev
+      description:
+        description: "A short description of the repo"
+        required: true
+        type: string
+
+jobs:
+  fork-and-update:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ secrets.wrenchchat_token }}
+
+    steps:
+      - name: Install GitHub CLI
+        run: sudo apt-get install gh
+
+      - name: Verify GH_TOKEN is set
+        run: echo "Token is set"
+
+      - name: Fork the repository via API
+        run: |
+          curl -X POST -H "Authorization: token ${{ secrets.wrenchchat_token }}" \
+          https://api.github.com/repos/${{ inputs.repo_name }}/forks
+
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Update `repos_by_category.md`
+        run: |
+          CATEGORY=${{ inputs.category }}
+          REPO_NAME=${{ inputs.repo_name }}
+          DESCRIPTION=${{ inputs.description }}
+          FILE="repos_by_category.md"
+
+          if ! grep -q "$CATEGORY:" $FILE; then
+            echo -e "\n$CATEGORY:\n  - repo_name: $REPO_NAME\n    repo_description: $DESCRIPTION" >> $FILE
+          else
+            sed -i "/^$CATEGORY:/a \ \ - repo_name: $REPO_NAME\n    repo_description: $DESCRIPTION" $FILE
+          fi
+
+      - name: Commit and Push changes
+        run: |
+          git config --local user.email "your-email@example.com"
+          git config --local user.name "GitHub Action"
+          git add repos_by_category.md
+          git commit -m "Added ${{ inputs.repo_name }} to ${{ inputs.category }}"
+          git push
