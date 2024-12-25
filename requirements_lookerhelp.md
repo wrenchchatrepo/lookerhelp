@@ -1,53 +1,98 @@
-### 1. Set up GitBook Spaces
+## MVP Definition
+
+The Minimum Viable Product (MVP) for LookerHelp consists of:
+
+1. Fully functioning AI agent (Lookernomicon) using available data stores through Slack (already implemented)
+2. Quality content valuable to Looker power users and developers
+3. Clean, simple, intuitive UX
+4. Streamlined payment process for users
+
+### Core Features:
+1. User Authentication and Access Control:
+   - Visitor: Access to main site with value proposition and sample docs/scripts
+   - Subscriber: Full access to docs.lookerhelp.com and scripts.lookerhelp.com
+   - Looker (paid): Access to Lookernomicon Slack workspace and AI agent
+
+2. Content Management:
+   - GitBook integration for documentation and scripts
+   - Basic SEO implementation
+
+3. Payment Integration:
+   - Stripe integration for $9.99/month subscription
+   - Rate Limits Apply
+
+4. Slack Integration:
+   - Lookernomicon AI agent accessible through Slack for paid users
+   - Daily user validation to ensure only paid users have access
+
+5. Basic Analytics and Monitoring:
+   - Google Analytics setup
+   - Essential Cloud Monitoring
+
+### Out of Scope for MVP:
+- Advanced analytics features
+- Complex customizations of the AI agent
+- Extensive marketing automation
+- Advanced user management features beyond the three-tier system
+
+This MVP focuses on delivering the core value proposition of LookerHelp: providing high-quality Looker documentation, scripts, and AI-assisted support to users, with a clear path from free to paid tiers.
+
+## 1. Set up GitBook Spaces
 
 ```bash
-# 1.1. Authenticate with GitBook API
-export GITBOOK_API_TOKEN="your_gitbook_api_token"
+# Ensure config.py exists and contains the necessary GitBook API token
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
 
-# 1.2. Create main LookerHelp space
-MAIN_SPACE_ID=$(curl -X POST "https://api.gitbook.com/v1/spaces" \
-  -H "Authorization: Bearer $GITBOOK_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "LookerHelp",
-    "visibility": "public"
-  }' | jq -r '.id')
+# Read GitBook API token from config.py
+GITBOOK_API_TOKEN=$(python -c "import config; print(config.GITBOOK_API_TOKEN)")
 
+# Function to create a GitBook space
+create_gitbook_space() {
+    local name=$1
+    local visibility=$2
+    
+    response=$(curl -X POST "https://api.gitbook.com/v1/spaces" \
+      -H "Authorization: Bearer $GITBOOK_API_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "name": "'"$name"'",
+        "visibility": "'"$visibility"'"
+      }')
+    
+    echo $response | jq -r '.id'
+}
+
+# Create main LookerHelp space
+MAIN_SPACE_ID=$(create_gitbook_space "LookerHelp" "public")
 echo "Main Space ID: $MAIN_SPACE_ID"
 
-# 1.3. Create docs subdomain space
-DOCS_SPACE_ID=$(curl -X POST "https://api.gitbook.com/v1/spaces" \
-  -H "Authorization: Bearer $GITBOOK_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "LookerHelp Docs",
-    "visibility": "public"
-  }' | jq -r '.id')
-
+# Create docs subdomain space
+DOCS_SPACE_ID=$(create_gitbook_space "LookerHelp Docs" "public")
 echo "Docs Space ID: $DOCS_SPACE_ID"
 
-# 1.4. Create scripts subdomain space
-SCRIPTS_SPACE_ID=$(curl -X POST "https://api.gitbook.com/v1/spaces" \
-  -H "Authorization: Bearer $GITBOOK_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "LookerHelp Scripts",
-    "visibility": "public"
-  }' | jq -r '.id')
-
+# Create scripts subdomain space
+SCRIPTS_SPACE_ID=$(create_gitbook_space "LookerHelp Scripts" "public")
 echo "Scripts Space ID: $SCRIPTS_SPACE_ID"
 
-# 1.5. Set up custom domains in GitBook (manual step)
-echo "Manual step: Set up custom domains in GitBook"
-echo "- Go to each space's settings in the GitBook web interface"
-echo "- Navigate to the 'Domains' section"
-echo "- Add the respective domain (lookerhelp.com, docs.lookerhelp.com, scripts.lookerhelp.com)"
-echo "- Follow GitBook's instructions to update your DNS records"
+# Note: Custom domain setup must be done manually in the GitBook UI
+echo "Remember to set up custom domains for each space in the GitBook UI"
 ```
+### This script uses the GitBook API to create the necessary spaces for LookerHelp. After running this script:
+**1. You'll have three GitBook spaces created: main site, docs, and scripts.**
+**2. The space IDs will be printed, which you should save for future use.**
+**3. Custom domain setup still needs to be done manually in the GitBook UI.**
 
-This script sets up the basic structure for your GitBook spaces. After running it, you'll have the foundation for your main website, documentation site, and scripts site. Make sure to complete the manual step for setting up custom domains.
+### Next steps:
+**1. Replace your_gitbook_api_token with your actual GitBook API token.**
+**2. Run this script to create the spaces.**
+**3. Save the returned space IDs for use in future API calls.**
+**4. Manually set up custom domains in the GitBook UI for each space.**
 
-### 2. Set up Initial Content Structure in GitBook
+
+## 2. Set up Initial Content Structure in GitBook
 
 ```bash
 # Function to create a page in a GitBook space
@@ -66,7 +111,7 @@ create_page() {
       }"
 }
 
-# 2.1. Set up main LookerHelp space content
+# Set up main LookerHelp space content
 echo "Setting up main LookerHelp space content..."
 
 create_page $MAIN_SPACE_ID "Welcome to LookerHelp" "# Welcome to LookerHelp\n\nYour comprehensive resource for Looker expertise."
@@ -74,21 +119,21 @@ create_page $MAIN_SPACE_ID "About" "# About LookerHelp\n\nLearn about our missio
 create_page $MAIN_SPACE_ID "Pricing" "# Pricing\n\nExplore our subscription options."
 create_page $MAIN_SPACE_ID "Contact" "# Contact Us\n\nGet in touch with our team."
 
-# 2.2. Set up Docs space content
+# Set up Docs space content
 echo "Setting up Docs space content..."
 
 create_page $DOCS_SPACE_ID "Looker Documentation" "# Looker Documentation\n\nComprehensive guides and tutorials for Looker."
 create_page $DOCS_SPACE_ID "Getting Started" "# Getting Started with Looker\n\nYour first steps in the Looker ecosystem."
 create_page $DOCS_SPACE_ID "Advanced Topics" "# Advanced Looker Topics\n\nDeep dives into complex Looker concepts."
 
-# 2.3. Set up Scripts space content
+# Set up Scripts space content
 echo "Setting up Scripts space content..."
 
 create_page $SCRIPTS_SPACE_ID "Looker Scripts" "# Looker Scripts\n\nA collection of useful scripts for Looker professionals."
 create_page $SCRIPTS_SPACE_ID "LookML Scripts" "# LookML Scripts\n\nScripts for working with LookML."
 create_page $SCRIPTS_SPACE_ID "Data Analysis Scripts" "# Data Analysis Scripts\n\nScripts for advanced data analysis in Looker."
 
-# 2.4. Update space metadata
+# Update space metadata
 update_space_metadata() {
     local space_id=$1
     local description=$2
@@ -104,37 +149,38 @@ update_space_metadata() {
 update_space_metadata $MAIN_SPACE_ID "Your comprehensive resource for Looker expertise"
 update_space_metadata $DOCS_SPACE_ID "In-depth Looker documentation and tutorials"
 update_space_metadata $SCRIPTS_SPACE_ID "A curated collection of useful Looker scripts"
-
-echo "Initial content structure set up complete."
 ```
+### This script sets up the basic content structure for your GitBook spaces. After running this script:
+**1. The main LookerHelp space will have Welcome, About, Pricing, and Contact pages.**
+**2. The Docs space will have a main documentation page, Getting Started, and Advanced Topics pages.**
+**3. The Scripts space will have a main scripts page, LookML Scripts, and Data Analysis Scripts pages.**
+**4. Each space will have an updated description.**
 
-This script sets up the basic content structure for your GitBook spaces. It creates initial pages in each space and updates the space metadata with descriptions. After running this script:
+### Next steps:
+**1. Review the created content in the GitBook web interface.**
+**2. Customize and expand the content for each page as needed.**
+**3. Set up the navigation structure for each space in the GitBook web interface.**
+**4. Consider adding more pages and structure as your content grows.**
 
-1. The main LookerHelp space will have Welcome, About, Pricing, and Contact pages.
-2. The Docs space will have a main documentation page, Getting Started, and Advanced Topics pages.
-3. The Scripts space will have a main scripts page, LookML Scripts, and Data Analysis Scripts pages.
+## 3. Set up User Management System in BigQuery
 
-Remember to replace placeholder content with your actual content as you develop your site. You may also want to add more pages and structure as needed.
+# Ensure config.py exists and contains the necessary GCP project ID
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
 
-Next steps:
-1. Review the created content in the GitBook web interface.
-2. Customize and expand the content for each page.
-3. Set up the navigation structure for each space in the GitBook web interface.
+# Read GCP project ID from config.py
+PROJECT_ID=$(python -c "import config; print(config.PROJECT_ID)")
 
-### 3. Set up User Management System in BigQuery
-
-```bash
-# Set your GCP project ID
-export PROJECT_ID="miguelai"
-
-# 3.1. Create BigQuery dataset
+# Create BigQuery dataset
 echo "Creating BigQuery dataset..."
 bq mk --dataset \
   --description "LookerHelp user management dataset" \
   --label=project:lookerhelp \
   $PROJECT_ID:lookerhelp_users
 
-# 3.2. Create users table
+# Create users table
 echo "Creating users table..."
 bq query --use_legacy_sql=false \
 "CREATE TABLE IF NOT EXISTS $PROJECT_ID.lookerhelp_users.users
@@ -148,7 +194,7 @@ bq query --use_legacy_sql=false \
 PARTITION BY DATE(created_at)
 CLUSTER BY subscription_status"
 
-# 3.3. Create a Cloud Function for user operations
+# Create a Cloud Function for user operations
 echo "Creating Cloud Function for user operations..."
 
 # Create a new directory for the Cloud Function
@@ -174,7 +220,7 @@ def upsert_user(request):
     request_json = request.get_json(silent=True)
     user_id = request_json['user_id']
     email = request_json['email']
-    subscription_status = request_json.get('subscription_status', 'free')
+    subscription_status = request_json.get('subscription_status', 'visitor')
 
     query = f"""
     MERGE {dataset_id}.{table_id} AS T
@@ -241,41 +287,33 @@ gcloud functions deploy get_user \
   --entry-point get_user
 
 cd ../..
-
-echo "User management system setup complete."
 ```
+### This script sets up a user management system in BigQuery and deploys Cloud Functions for user operations. After running this script:
+**1. A BigQuery dataset named 'lookerhelp_users' will be created.**
+**2. A 'users' table will be created in the dataset with fields for user_id, email, created_at, subscription_status, and last_login.**
+**3. Two Cloud Functions will be deployed: 'user_management' for creating/updating users, and 'get_user' for retrieving user information.**
 
-This script does the following:
+### Next steps:
+**1. Test the Cloud Functions to ensure they're working correctly.**
+**2. Integrate these functions with your authentication flow (e.g., after Google Sign-In).**
+**3. Implement proper error handling and logging in the Cloud Functions.**
+**4. Secure the Cloud Functions appropriately for production use.**
+**5. Consider adding more user management functions as needed (e.g., delete user, update subscription).**
 
-1. Creates a BigQuery dataset named `lookerhelp_users`.
-2. Creates a `users` table in the dataset with the necessary fields.
-3. Sets up a Cloud Function for user management operations (upsert and get user).
-
-After running this script:
-
-1. You'll have a BigQuery table ready to store user data.
-2. You'll have two Cloud Functions deployed:
-   - `user_management`: For creating or updating user records
-   - `get_user`: For retrieving user information
-
-Important notes:
-- The Cloud Functions are set to allow unauthenticated access for simplicity. In a production environment, you should secure these functions appropriately.
-- You may need to enable necessary APIs in your GCP project before running this script (e.g., Cloud Functions API, BigQuery API).
-- Make sure you have the necessary permissions in your GCP project to create datasets, tables, and deploy Cloud Functions.
-
-Next steps:
-1. Test the Cloud Functions to ensure they're working correctly.
-2. Integrate these functions with your authentication flow (e.g., after Google Sign-In).
-3. Implement proper error handling and logging in the Cloud Functions.
-
-### 4. Set up Stripe Integration for Subscriptions
+## 4. Set up Stripe Integration for Subscriptions
 
 ```bash
-# Set your Stripe API keys
-export STRIPE_PUBLISHABLE_KEY="pk_test_##########################"
-export STRIPE_SECRET_KEY="sk_test_##########################"
+# Ensure config.py exists and contains the necessary Stripe API keys
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
 
-# 4.1. Create a Cloud Function for Stripe webhook handling
+# Read Stripe API keys from config.py
+STRIPE_PUBLISHABLE_KEY=$(python -c "import config; print(config.STRIPE_PUBLISHABLE_KEY)")
+STRIPE_SECRET_KEY=$(python -c "import config; print(config.STRIPE_SECRET_KEY)")
+
+# Create a Cloud Function for Stripe webhook handling
 echo "Creating Cloud Function for Stripe webhook handling..."
 
 mkdir -p cloud_functions/stripe_webhook
@@ -403,7 +441,7 @@ def handle_subscription_deleted(subscription):
         # Update user subscription status to 'canceled'
         update_query = f"""
         UPDATE `miguelai.lookerhelp_users.users`
-        SET subscription_status = 'canceled'
+        SET subscription_status = 'subscriber'
         WHERE user_id = @user_id
         """
         update_job_config = bigquery.QueryJobConfig(
@@ -428,17 +466,7 @@ gcloud functions deploy stripe_webhook \
 
 cd ../..
 
-# 4.2. Set up Stripe Connect (for future use)
-echo "Setting up Stripe Connect..."
-
-# This step is manual and requires configuration in the Stripe Dashboard
-echo "Please complete the following steps manually in the Stripe Dashboard:"
-echo "1. Go to https://dashboard.stripe.com/settings/connect"
-echo "2. Set up your Connect account settings"
-echo "3. Configure the OAuth settings if you plan to onboard other Stripe accounts"
-echo "4. Note down the 'Client ID' for future use in your application"
-
-# 4.3. Create a Cloud Function for creating Stripe Checkout sessions
+# Create a Cloud Function for creating Stripe Checkout sessions
 echo "Creating Cloud Function for Stripe Checkout sessions..."
 
 mkdir -p cloud_functions/create_checkout_session
@@ -467,7 +495,7 @@ def create_checkout_session():
             payment_method_types=['card'],
             line_items=[
                 {
-                    'price': request.json['price_id'],  # You'll need to create this Price in your Stripe account
+                    'price': 'price_1234567890',  # Replace with your actual price ID for $9.99/month
                     'quantity': 1,
                 },
             ],
@@ -494,49 +522,38 @@ gcloud functions deploy create_checkout_session \
   --entry-point create_checkout_session
 
 cd ../..
-
-echo "Stripe integration setup complete."
 ```
+### This script sets up Stripe integration for handling subscriptions. After running this script:
+**1. A Cloud Function for handling Stripe webhooks will be deployed.**
+**2. A Cloud Function for creating Stripe Checkout sessions will be deployed.**
+**3. The webhook function will update user subscription status in BigQuery based on Stripe events.**
+**4. The checkout session function will create a Stripe Checkout session for the $9.99/month subscription.**
 
-This script sets up the following:
+### Next steps:
+**1. Replace 'price_1234567890' in the create_checkout_session function with your actual Stripe Price ID for the $9.99/month subscription.**
+**2. Set up a webhook in your Stripe account dashboard to point to the stripe_webhook Cloud Function URL.**
+**3. Update the success_url and cancel_url in the create_checkout_session function to match your actual URLs.**
+**4. Implement the frontend code to call the create_checkout_session function when a user wants to subscribe.**
+**5. Test the entire subscription flow to ensure it's working correctly.**
+**6. Implement proper error handling and logging in both Cloud Functions.**
+**7. Secure the Cloud Functions appropriately for production use.**
 
-1. A Cloud Function to handle Stripe webhooks, which will update the user's subscription status in BigQuery when certain events occur (e.g., successful checkout, subscription updated, subscription canceled).
-
-2. Instructions for setting up Stripe Connect in the Stripe Dashboard. This is a manual step that you'll need to complete in the Stripe interface.
-
-3. A Cloud Function to create Stripe Checkout sessions, which you can use to initiate the subscription process for your users.
-
-After running this script:
-
-1. You'll have two new Cloud Functions deployed:
-   - `stripe_webhook`: Handles Stripe webhook events
-   - `create_checkout_session`: Creates Stripe Checkout sessions for subscriptions
-
-2. You'll need to manually set up Stripe Connect in the Stripe Dashboard.
-
-3. You'll need to create Products and Prices in your Stripe account to use with the Checkout sessions.
-
-Important notes:
-- The Cloud Functions are set to allow unauthenticated access for simplicity. In a production environment, you should secure these functions appropriately.
-- You'll need to set up a webhook in your Stripe account to point to the `stripe_webhook` Cloud Function URL.
-- Make sure to replace the success and cancel URLs in the Checkout session creation with your actual URLs.
-- The `client_reference_id` in the Checkout session is used to link the Stripe customer to your user in BigQuery. Make sure to pass the correct user_id when creating a Checkout session.
-
-Next steps:
-1. Set up the Stripe webhook in your Stripe Dashboard to point to the `stripe_webhook` Cloud Function URL.
-2. Create Products and Prices in your Stripe account for your subscription offerings.
-3. Implement the frontend code to initiate the Checkout process by calling the `create_checkout_session` Cloud Function.
-4. Test the entire subscription flow to ensure it's working correctly.
-
-### 5. Set up Slack Integration for Lookernomicon AI Agent
+## 5. Set up Slack Integration for Lookernomicon AI Agent
 
 ```bash
-# Set your Slack API credentials
-export SLACK_BOT_TOKEN="xoxb-your-bot-token"
-export SLACK_SIGNING_SECRET="your-signing-secret"
-export SLACK_APP_TOKEN="xapp-your-app-token"
+# Ensure the .env file exists
+if [ ! -f .env ]; then
+    echo "Error: .env file not found. Please create it with the necessary credentials."
+    exit 1
+fi
 
-# 5.1. Create a Cloud Function for Slack event handling
+# Ensure the config.py file exists
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
+
+# Create a Cloud Function for Slack event handling
 echo "Creating Cloud Function for Slack event handling..."
 
 mkdir -p cloud_functions/slack_bot
@@ -545,23 +562,27 @@ cd cloud_functions/slack_bot
 # Create requirements.txt
 cat << EOF > requirements.txt
 slack-bolt==1.14.3
-google-cloud-aiplatform==1.16.0
 google-cloud-bigquery==2.34.4
+python-dotenv==0.19.0
 EOF
 
 # Create main.py
 cat << EOF > main.py
 import os
+from dotenv import load_dotenv
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
-from google.cloud import aiplatform
 from google.cloud import bigquery
 from flask import Flask, request
+import config
+
+# Load environment variables
+load_dotenv()
 
 # Initialize Slack app
 app = App(
-    token=os.environ.get("SLACK_BOT_TOKEN"),
-    signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
+    token=config.SLACK_BOT_TOKEN,
+    signing_secret=config.SLACK_SIGNING_SECRET
 )
 
 # Initialize Flask app
@@ -571,16 +592,13 @@ handler = SlackRequestHandler(app)
 # Initialize BigQuery client
 bigquery_client = bigquery.Client()
 
-# Initialize Vertex AI
-aiplatform.init(project='miguelai')
-
 @app.event("app_mention")
 def handle_mention(event, say):
     user_id = event['user']
     
     # Check user subscription status
     query = f"""
-    SELECT subscription_status FROM `miguelai.lookerhelp_users.users`
+    SELECT subscription_status FROM `{config.PROJECT_ID}.lookerhelp_users.users`
     WHERE user_id = @user_id
     LIMIT 1
     """
@@ -592,21 +610,13 @@ def handle_mention(event, say):
     results = bigquery_client.query(query, job_config=job_config).result()
     user = next(results) if results.total_rows > 0 else None
 
-    if not user or user.subscription_status != 'paid':
+    if not user or user.subscription_status != 'looker':
         say("I'm sorry, but you need to have an active paid subscription to use this feature. Please visit https://lookerhelp.com/pricing for more information.")
         return
 
-    # Process the message with Vertex AI
+    # Process the message (in this case, we're just echoing it back)
     message = event['text']
-    response = process_with_vertex_ai(message)
-    
-    say(response)
-
-def process_with_vertex_ai(message):
-    # Replace 'your-agent-id' with the actual ID of your Vertex AI agent
-    agent = aiplatform.Agent('projects/miguelai/locations/us-central1/agents/d27f2462-5527-4091-9362-8b8455f9a753')
-    response = agent.query(message)
-    return response.response
+    say(f"You said: {message}")
 
 @flask_app.route("/slack/events", methods=["POST"])
 def slack_events():
@@ -622,58 +632,127 @@ gcloud functions deploy slack_bot \
   --runtime python39 \
   --trigger-http \
   --allow-unauthenticated \
-  --set-env-vars SLACK_BOT_TOKEN=$SLACK_BOT_TOKEN,SLACK_SIGNING_SECRET=$SLACK_SIGNING_SECRET \
+  --set-env-vars SLACK_BOT_TOKEN=$(python -c "import config; print(config.SLACK_BOT_TOKEN)"),SLACK_SIGNING_SECRET=$(python -c "import config; print(config.SLACK_SIGNING_SECRET)") \
   --entry-point slack_events
 
 cd ../..
 
-# 5.2. Set up Slack App (manual steps)
-echo "Please complete the following steps manually in the Slack API website:"
-echo "1. Go to https://api.slack.com/apps"
-echo "2. Click on your Lookernomicon app"
-echo "3. Under 'Add features and functionality', click on 'Event Subscriptions'"
-echo "4. Enable events and enter the URL of your deployed Cloud Function"
-echo "5. Subscribe to the 'app_mention' bot event"
-echo "6. Go to 'OAuth & Permissions' and add the following bot token scopes:"
-echo "   - app_mentions:read"
-echo "   - chat:write"
-echo "7. Install or reinstall the app to your workspace"
+# Create a Cloud Function for daily Slack user validation
+echo "Creating Cloud Function for daily Slack user validation..."
 
-echo "Slack integration setup complete."
-```
+mkdir -p cloud_functions/slack_user_validation
+cd cloud_functions/slack_user_validation
 
-This script sets up the following:
+# Create requirements.txt
+cat << EOF > requirements.txt
+google-cloud-bigquery==2.34.4
+slack_sdk==3.11.2
+python-dotenv==0.19.0
+EOF
 
-1. A Cloud Function that handles Slack events, specifically mentions of your Slack bot.
+# Create main.py
+cat << EOF > main.py
+import os
+from dotenv import load_dotenv
+from google.cloud import bigquery
+from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
+import config
 
-2. Integration with your Vertex AI agent to process user messages and generate responses.
+# Load environment variables
+load_dotenv()
 
-3. A check to ensure that only users with active paid subscriptions can use the Lookernomicon AI agent.
+def validate_slack_users(event, context):
+    # Initialize BigQuery Client
+    bq_client = bigquery.Client()
 
-After running this script:
+    # Initialize Slack Client
+    slack_client = WebClient(token=config.SLACK_BOT_TOKEN)
 
-1. You'll have a new Cloud Function deployed called `slack_bot` that handles Slack events.
+    # Query to get all paid users
+    query = f"""
+    SELECT user_id
+    FROM `{config.PROJECT_ID}.lookerhelp_users.users`
+    WHERE subscription_status = 'looker'
+    """
+    
+    query_job = bq_client.query(query)
+    valid_users = set([row['user_id'] for row in query_job])
 
-2. The function will check the user's subscription status in BigQuery before processing their message.
+    # Get all users in the Slack workspace
+    try:
+        result = slack_client.users_list()
+        slack_users = result["members"]
+    except SlackApiError as e:
+        print(f"Error fetching Slack users: {e}")
+        return
 
-3. If the user has an active paid subscription, their message will be processed by the Vertex AI agent, and the response will be sent back to Slack.
+    for user in slack_users:
+        if not user['is_bot'] and user['id'] not in valid_users:
+            try:
+                # Remove user from workspace
+                slack_client.conversations_kick(
+                    channel=config.SLACK_CHANNEL_ID,
+                    user=user['id']
+                )
+                print(f"Removed user {user['id']} from Slack channel")
+            except SlackApiError as e:
+                print(f"Error removing user {user['id']}: {e}")
 
-Important notes:
-- The Cloud Function is set to allow unauthenticated access for simplicity. In a production environment, you should secure this function appropriately.
-- You'll need to manually set up some aspects of the Slack app in the Slack API website, as outlined in step 5.2.
-- Make sure to replace 'your-agent-id' in the `process_with_vertex_ai` function with the actual ID of your Vertex AI agent.
-- The BigQuery query assumes that the `user_id` in your users table matches the Slack user ID. You may need to adjust this if they're different.
+    print("Slack user validation complete")
 
-Next steps:
-1. Complete the manual Slack app setup as described in step 5.2.
-2. Test the Slack bot by mentioning it in a channel it's been added to.
-3. Verify that only paid users can use the bot and that it's correctly interfacing with your Vertex AI agent.
-4. Implement error handling and logging to make the bot more robust.
-5. Consider adding more sophisticated conversation handling if needed.
+EOF
 
-### 6. Set up Cloud Logging for All Active APIs
+# Deploy the Cloud Function
+echo "Deploying Slack user validation Cloud Function..."
+gcloud functions deploy slack_user_validation \
+  --runtime python39 \
+  --trigger-topic daily-slack-validation \
+  --set-env-vars SLACK_BOT_TOKEN=$(python -c "import config; print(config.SLACK_BOT_TOKEN)"),SLACK_CHANNEL_ID=$(python -c "import config; print(config.SLACK_CHANNEL_ID)")
+
+# Set up Cloud Scheduler job to run the validation daily
+echo "Setting up Cloud Scheduler job for daily Slack user validation..."
+gcloud scheduler jobs create pubsub daily-slack-validation \
+    --schedule "0 0 * * *" \
+    --topic daily-slack-validation \
+    --message-body "Run daily Slack user validation"
+
+cd ../..
+
+
+### This script sets up the Slack integration for the Lookernomicon AI Agent and a daily user validation process. After running this script:
+**1. The script will check for the existence of both .env and config.py files.**
+**2. Cloud Functions will be deployed using configuration from config.py.**
+**3. The Slack bot will check user subscription status before responding.**
+**4. A daily Slack user validation process will be set up.**
+
+### Next steps:
+**1. Ensure your config.py file contains the following variables:**
+   **- SLACK_BOT_TOKEN = "xoxb-your-bot-token"**
+   **- SLACK_SIGNING_SECRET = "your-signing-secret"**
+   **- SLACK_CHANNEL_ID = "your-channel-id"**
+   **- PROJECT_ID = "miguelai"**
+**2. Replace the placeholder values in config.py with your actual credentials and IDs.**
+**3. Set up your Slack app in the Slack API website as described in previous steps.**
+**4. Install the Slack app to your workspace.**
+**5. Test the Slack bot by mentioning it in the Lookernomicon channel.**
+**6. Monitor the daily user validation process to ensure it's working correctly.**
+**7. Implement proper error handling and logging in both Cloud Functions.**
+**8. Secure the Cloud Functions appropriately for production use.**
+**9. Consider implementing rate limiting to prevent abuse of the Lookernomicon AI Agent.**
+
+## 6. Set up Cloud Logging for All Active APIs
 
 ```bash
+# Ensure config.py exists and contains the necessary configuration
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
+
+# Read project ID from config.py
+PROJECT_ID=$(python -c "import config; print(config.PROJECT_ID)")
+
 # 6.1. Enable Cloud Logging API
 echo "Enabling Cloud Logging API..."
 gcloud services enable logging.googleapis.com
@@ -698,13 +777,13 @@ update_function_logging() {
     cp $function_dir/main.py $function_dir/main.py.bak
     
     # Add logging import and setup to main.py
-    sed -i '1i import logging\nimport google.cloud.logging\nfrom google.cloud.logging.handlers import CloudLoggingHandler\nimport google.cloud.logging_v2.handlers.container as container_handler\n' $function_dir/main.py
+    sed -i '1i import logging\nimport google.cloud.logging\nfrom google.cloud.logging.handlers import CloudLoggingHandler\n' $function_dir/main.py
     
     # Add logging setup after imports
     sed -i '/^import/a \
 # Setup Cloud Logging\
 client = google.cloud.logging.Client()\
-handler = container_handler.ContainerHandler(client=client, name='"$function_name"')\
+handler = CloudLoggingHandler(client)\
 cloud_logger = logging.getLogger('"$function_name"')\
 cloud_logger.setLevel(logging.INFO)\
 cloud_logger.addHandler(handler)\
@@ -729,136 +808,38 @@ update_function_logging "stripe_webhook" "cloud_functions/stripe_webhook"
 update_function_logging "create_checkout_session" "cloud_functions/create_checkout_session"
 update_function_logging "slack_bot" "cloud_functions/slack_bot"
 
-# 6.4. Set up logging for GitBook API calls
-echo "Setting up logging for GitBook API calls..."
-
-mkdir -p scripts
-cat << EOF > scripts/gitbook_logging.py
-import logging
-import google.cloud.logging
-from google.cloud.logging.handlers import CloudLoggingHandler
-import requests
-
-# Setup Cloud Logging
-client = google.cloud.logging.Client()
-handler = CloudLoggingHandler(client, name="gitbook_api")
-cloud_logger = logging.getLogger("gitbook_api")
-cloud_logger.setLevel(logging.INFO)
-cloud_logger.addHandler(handler)
-
-def gitbook_api_call(method, endpoint, data=None):
-    url = f"https://api.gitbook.com/v1/{endpoint}"
-    headers = {
-        "Authorization": f"Bearer {os.environ.get('GITBOOK_API_TOKEN')}",
-        "Content-Type": "application/json"
-    }
-    
-    try:
-        response = requests.request(method, url, headers=headers, json=data)
-        response.raise_for_status()
-        
-        cloud_logger.info(f"GitBook API call successful: {method} {endpoint}")
-        return response.json()
-    except requests.exceptions.RequestException as e:
-        cloud_logger.error(f"GitBook API call failed: {method} {endpoint}", exc_info=True)
-        raise
-EOF
-
-# 6.5. Set up logging for Vertex AI agent
-echo "Setting up logging for Vertex AI agent..."
-
-cat << EOF > scripts/vertex_ai_logging.py
-import logging
-import google.cloud.logging
-from google.cloud.logging.handlers import CloudLoggingHandler
-from google.cloud import aiplatform
-
-# Setup Cloud Logging
-client = google.cloud.logging.Client()
-handler = CloudLoggingHandler(client, name="vertex_ai_agent")
-cloud_logger = logging.getLogger("vertex_ai_agent")
-cloud_logger.setLevel(logging.INFO)
-cloud_logger.addHandler(handler)
-
-def process_with_vertex_ai(message):
-    try:
-        agent = aiplatform.Agent('projects/miguelai/locations/us-central1/agents/d27f2462-5527-4091-9362-8b8455f9a753')
-        response = agent.query(message)
-        
-        cloud_logger.info(f"Vertex AI agent query successful: {message[:50]}...")
-        return response.response
-    except Exception as e:
-        cloud_logger.error(f"Vertex AI agent query failed: {message[:50]}...", exc_info=True)
-        raise
-EOF
-
-# 6.6. Set up logging for BigQuery operations
-echo "Setting up logging for BigQuery operations..."
-
-cat << EOF > scripts/bigquery_logging.py
-import logging
-import google.cloud.logging
-from google.cloud.logging.handlers import CloudLoggingHandler
-from google.cloud import bigquery
-
-# Setup Cloud Logging
-client = google.cloud.logging.Client()
-handler = CloudLoggingHandler(client, name="bigquery_operations")
-cloud_logger = logging.getLogger("bigquery_operations")
-cloud_logger.setLevel(logging.INFO)
-cloud_logger.addHandler(handler)
-
-def execute_bigquery_query(query, params=None):
-    client = bigquery.Client()
-    job_config = bigquery.QueryJobConfig(query_parameters=params)
-    
-    try:
-        query_job = client.query(query, job_config=job_config)
-        results = query_job.result()
-        
-        cloud_logger.info(f"BigQuery query executed successfully: {query[:50]}...")
-        return results
-    except Exception as e:
-        cloud_logger.error(f"BigQuery query failed: {query[:50]}...", exc_info=True)
-        raise
-EOF
-
 echo "Cloud Logging setup complete for all active APIs."
 ```
+### This script sets up Cloud Logging for all active APIs and updates existing Cloud Functions to use structured logging. After running this script:
+**1. Cloud Logging API will be enabled for your project.**
+**2. A custom log bucket will be created for better log organization.**
+**3. All existing Cloud Functions will be updated to use structured logging.**
+**4. Cloud Functions will be redeployed with the logging changes.**
 
-This script does the following:
+### Next steps:
+**1. Verify that logs are being correctly sent to Cloud Logging for each function.**
+**2. Set up log-based metrics and alerts in Google Cloud Console to monitor your application's health and performance.**
+**3. Consider setting up log exports to BigQuery for long-term storage and analysis if needed.**
+**4. Implement more detailed logging in your application code to capture important events and errors.**
 
-1. Enables the Cloud Logging API for your project.
-2. Creates a custom log bucket for better organization of your logs.
-3. Updates all existing Cloud Functions to use structured logging.
-4. Sets up logging for GitBook API calls.
-5. Sets up logging for Vertex AI agent interactions.
-6. Sets up logging for BigQuery operations.
-
-After running this script:
-
-1. All your Cloud Functions will now use structured logging, sending logs to Cloud Logging.
-2. You'll have separate Python scripts for logging GitBook API calls, Vertex AI agent interactions, and BigQuery operations.
-
-Important notes:
-- The logging setup in the Cloud Functions assumes they're running in a Google Cloud environment. If you're testing locally, you might need to adjust the logging setup.
-- The GitBook, Vertex AI, and BigQuery logging scripts are standalone and need to be imported and used in your main application code where these services are used.
-- Make sure to use these logging functions instead of direct API calls in your main application code.
-
-Next steps:
-1. Integrate the logging scripts (GitBook, Vertex AI, BigQuery) into your main application code.
-2. Test each component to ensure logs are being sent to Cloud Logging.
-3. Set up log-based metrics and alerts in Google Cloud Console to monitor your application's health and performance.
-4. Consider setting up log exports to BigQuery for long-term storage and analysis if needed.
-
-### GitBook to LinkedIn Content Sharing Setup
+## 7. Set up GitBook to LinkedIn Content Sharing
 
 ```bash
-# Set your project ID and LinkedIn Company ID
-export PROJECT_ID="miguelai"
-export LINKEDIN_COMPANY_ID="your-linkedin-company-id"
+# Ensure config.py exists and contains the necessary configuration
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
 
-# Create directory for Cloud Function
+# Read necessary values from config.py
+PROJECT_ID=$(python -c "import config; print(config.PROJECT_ID)")
+LINKEDIN_ACCESS_TOKEN=$(python -c "import config; print(config.LINKEDIN_ACCESS_TOKEN)")
+LINKEDIN_COMPANY_ID=$(python -c "import config; print(config.LINKEDIN_COMPANY_ID)")
+GITBOOK_WEBHOOK_SECRET=$(python -c "import config; print(config.GITBOOK_WEBHOOK_SECRET)")
+
+# Create a Cloud Function for GitBook webhook handling and LinkedIn posting
+echo "Creating Cloud Function for GitBook to LinkedIn content sharing..."
+
 mkdir -p cloud_functions/gitbook_to_linkedin
 cd cloud_functions/gitbook_to_linkedin
 
@@ -875,25 +856,15 @@ import os
 import json
 import requests
 from flask import Flask, request
-from google.cloud import secretmanager
 import hmac
 import hashlib
+import config
 
 app = Flask(__name__)
 
-def access_secret_version(secret_id, version_id="latest"):
-    client = secretmanager.SecretManagerServiceClient()
-    name = f"projects/{os.environ['PROJECT_ID']}/secrets/{secret_id}/versions/{version_id}"
-    response = client.access_secret_version(request={"name": name})
-    return response.payload.data.decode("UTF-8")
-
-LINKEDIN_ACCESS_TOKEN = access_secret_version("linkedin-access-token")
-LINKEDIN_COMPANY_ID = os.environ.get('LINKEDIN_COMPANY_ID')
-GITBOOK_WEBHOOK_SECRET = access_secret_version("gitbook-webhook-secret")
-
 def verify_gitbook_signature(payload, signature):
     computed_signature = hmac.new(
-        GITBOOK_WEBHOOK_SECRET.encode(),
+        config.GITBOOK_WEBHOOK_SECRET.encode(),
         payload,
         hashlib.sha256
     ).hexdigest()
@@ -915,12 +886,12 @@ def gitbook_webhook():
         
         linkedin_url = f"https://api.linkedin.com/v2/ugcPosts"
         headers = {
-            "Authorization": f"Bearer {LINKEDIN_ACCESS_TOKEN}",
+            "Authorization": f"Bearer {config.LINKEDIN_ACCESS_TOKEN}",
             "Content-Type": "application/json",
             "X-Restli-Protocol-Version": "2.0.0"
         }
         post_data = {
-            "author": f"urn:li:organization:{LINKEDIN_COMPANY_ID}",
+            "author": f"urn:li:organization:{config.LINKEDIN_COMPANY_ID}",
             "lifecycleState": "PUBLISHED",
             "specificContent": {
                 "com.linkedin.ugc.ShareContent": {
@@ -948,44 +919,46 @@ if __name__ == "__main__":
     app.run(port=8080)
 EOF
 
-# Deploy Cloud Function
+# Deploy the Cloud Function
+echo "Deploying GitBook to LinkedIn Cloud Function..."
 gcloud functions deploy gitbook_to_linkedin \
   --runtime python39 \
   --trigger-http \
   --allow-unauthenticated \
-  --set-env-vars PROJECT_ID=$PROJECT_ID,LINKEDIN_COMPANY_ID=$LINKEDIN_COMPANY_ID \
+  --set-env-vars PROJECT_ID=$PROJECT_ID,LINKEDIN_ACCESS_TOKEN=$LINKEDIN_ACCESS_TOKEN,LINKEDIN_COMPANY_ID=$LINKEDIN_COMPANY_ID,GITBOOK_WEBHOOK_SECRET=$GITBOOK_WEBHOOK_SECRET \
   --entry-point gitbook_webhook
 
-# Store secrets in Secret Manager
-echo -n "your-linkedin-access-token" | \
-gcloud secrets create linkedin-access-token --data-file=- --replication-policy="automatic"
-
-echo -n "your-gitbook-webhook-secret" | \
-gcloud secrets create gitbook-webhook-secret --data-file=- --replication-policy="automatic"
-
-# Instructions for manual GitBook webhook setup
-echo "Please complete the following steps manually in the GitBook web interface:"
-echo "1. Go to your GitBook space settings"
-echo "2. Navigate to the 'Integrations' or 'Webhooks' section"
-echo "3. Add a new webhook with the following details:"
-echo "   - URL: [Your Cloud Function URL]/gitbook-webhook"
-echo "   - Events: Select 'Content updated'"
-echo "   - Secret: Use the same secret you stored in Secret Manager"
+cd ../..
 
 echo "GitBook to LinkedIn content sharing setup complete."
 ```
-To use this script:
+### This script sets up a Cloud Function to handle GitBook webhooks and post content updates to LinkedIn. After running this script:
+**1. A Cloud Function will be deployed to handle GitBook webhooks.**
+**2. The function will verify the GitBook webhook signature for security.**
+**3. When content is updated in GitBook, a post will be created on the LinkedIn company page.**
 
-Copy the entire content into a new file, for example, `setup_gitbook_linkedin.sh`.
-Make the script executable: `chmod +x setup_gitbook_linkedin.sh`
-Replace your-linkedin-company-id, your-linkedin-access-token, and your-gitbook-webhook-secret with your actual values.
-Run the script: `./setup_gitbook_linkedin.sh`
-After running the script, follow the manual instructions to set up the GitBook webhook. Once that's done, your GitBook to LinkedIn sharing feature should be operational.
+### Next steps:
+**1. Set up a webhook in GitBook pointing to the URL of the deployed Cloud Function.**
+**2. Test the integration by updating content in GitBook and verifying that it appears on LinkedIn.**
+**3. Monitor the Cloud Function logs to ensure it's working correctly and to troubleshoot any issues.**
+**4. Consider implementing rate limiting to avoid overwhelming the LinkedIn API.**
+**5. Implement more sophisticated content filtering or formatting if needed.**
 
-### 8. Implement SEO Optimization for LookerHelp.com
+## 8. Implement SEO Optimization for LookerHelp.com
 
 ```bash
-#!/bin/bash
+# Ensure config.py exists and contains the necessary configuration
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
+
+# Read necessary values from config.py
+PROJECT_ID=$(python -c "import config; print(config.PROJECT_ID)")
+GITBOOK_API_TOKEN=$(python -c "import config; print(config.GITBOOK_API_TOKEN)")
+MAIN_SPACE_ID=$(python -c "import config; print(config.MAIN_SPACE_ID)")
+DOCS_SPACE_ID=$(python -c "import config; print(config.DOCS_SPACE_ID)")
+SCRIPTS_SPACE_ID=$(python -c "import config; print(config.SCRIPTS_SPACE_ID)")
 
 # 8.1. Create a sitemap.xml file
 echo "Creating sitemap.xml..."
@@ -1029,53 +1002,71 @@ Sitemap: https://lookerhelp.com/sitemap.xml
 EOF
 
 # 8.3. Create a Cloud Function to dynamically update sitemap
+echo "Creating Cloud Function for dynamic sitemap updates..."
+
 mkdir -p cloud_functions/update_sitemap
 cd cloud_functions/update_sitemap
 
 cat << EOF > requirements.txt
 google-cloud-storage==1.42.0
-gitbook-api==0.1.0
+requests==2.26.0
 EOF
 
 cat << EOF > main.py
 import os
 from google.cloud import storage
-from gitbook_api import GitBookClient
+import requests
 
 def update_sitemap(event, context):
     gitbook_token = os.environ.get('GITBOOK_API_TOKEN')
-    client = GitBookClient(gitbook_token)
+    project_id = os.environ.get('PROJECT_ID')
+    main_space_id = os.environ.get('MAIN_SPACE_ID')
+    docs_space_id = os.environ.get('DOCS_SPACE_ID')
+    scripts_space_id = os.environ.get('SCRIPTS_SPACE_ID')
     
-    # Fetch pages from GitBook
-    main_space = client.get_space('MAIN_SPACE_ID')
-    docs_space = client.get_space('DOCS_SPACE_ID')
-    scripts_space = client.get_space('SCRIPTS_SPACE_ID')
+    # Function to get pages from a GitBook space
+    def get_pages(space_id):
+        url = f"https://api.gitbook.com/v1/spaces/{space_id}/content"
+        headers = {"Authorization": f"Bearer {gitbook_token}"}
+        response = requests.get(url, headers=headers)
+        return response.json().get('items', [])
     
-    all_pages = (
-        [f"https://lookerhelp.com/{page.slug}" for page in main_space.get_pages()] +
-        [f"https://docs.lookerhelp.com/{page.slug}" for page in docs_space.get_pages()] +
-        [f"https://scripts.lookerhelp.com/{page.slug}" for page in scripts_space.get_pages()]
-    )
+    # Get pages from all spaces
+    main_pages = get_pages(main_space_id)
+    docs_pages = get_pages(docs_space_id)
+    scripts_pages = get_pages(scripts_space_id)
     
     # Generate sitemap XML
     sitemap_content = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    for url in all_pages:
-        sitemap_content += f'  <url>\n    <loc>{url}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n'
+    
+    # Add main pages
+    for page in main_pages:
+        sitemap_content += f'  <url>\n    <loc>https://lookerhelp.com/{page["slug"]}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n'
+    
+    # Add docs pages
+    for page in docs_pages:
+        sitemap_content += f'  <url>\n    <loc>https://docs.lookerhelp.com/{page["slug"]}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n'
+    
+    # Add scripts pages
+    for page in scripts_pages:
+        sitemap_content += f'  <url>\n    <loc>https://scripts.lookerhelp.com/{page["slug"]}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>0.7</priority>\n  </url>\n'
+    
     sitemap_content += '</urlset>'
     
     # Upload sitemap to Cloud Storage
     storage_client = storage.Client()
-    bucket = storage_client.get_bucket('lookerhelp-website')
+    bucket = storage_client.get_bucket(f"{project_id}.appspot.com")
     blob = bucket.blob('sitemap.xml')
     blob.upload_from_string(sitemap_content, content_type='application/xml')
     
     print("Sitemap updated successfully")
+
 EOF
 
 gcloud functions deploy update_sitemap \
     --runtime python39 \
     --trigger-topic update-sitemap \
-    --set-env-vars GITBOOK_API_TOKEN=your_gitbook_api_token
+    --set-env-vars GITBOOK_API_TOKEN=$GITBOOK_API_TOKEN,PROJECT_ID=$PROJECT_ID,MAIN_SPACE_ID=$MAIN_SPACE_ID,DOCS_SPACE_ID=$DOCS_SPACE_ID,SCRIPTS_SPACE_ID=$SCRIPTS_SPACE_ID
 
 # 8.4. Set up a Cloud Scheduler job to update sitemap daily
 gcloud scheduler jobs create pubsub update-sitemap-daily \
@@ -1083,14 +1074,9 @@ gcloud scheduler jobs create pubsub update-sitemap-daily \
     --topic update-sitemap \
     --message-body "Update sitemap"
 
-# 8.5. Update GitBook space settings for SEO
-echo "Please update the following SEO settings in GitBook for each space:"
-echo "1. Set a clear, descriptive title for each space"
-echo "2. Add a meta description for each space"
-echo "3. Enable 'Index space in search engines' option"
-echo "4. Set up custom domains if not already done"
+cd ../..
 
-# 8.6. Implement structured data
+# 8.5. Implement structured data
 cat << EOF > structured_data.json
 {
   "@context": "https://schema.org",
@@ -1110,43 +1096,35 @@ echo "<script type=\"application/ld+json\">"
 cat structured_data.json
 echo "</script>"
 
-# 8.7. Set up Google Search Console
-echo "Please complete the following steps to set up Google Search Console:"
-echo "1. Go to https://search.google.com/search-console"
-echo "2. Add your property (lookerhelp.com)"
-echo "3. Verify ownership using one of the provided methods"
-echo "4. Submit your sitemap.xml"
-echo "5. Monitor for any indexing issues or manual actions"
-
-# 8.8. Implement canonical URLs
-echo "Ensure all pages have a canonical URL tag. Add this to the <head> of each page:"
-echo "<link rel=\"canonical\" href=\"https://lookerhelp.com/your-page-url\" />"
-
-# 8.9. Optimize page load speed
-echo "To optimize page load speed:"
-echo "1. Minimize and compress CSS and JavaScript files"
-echo "2. Optimize images (compress and use appropriate formats)"
-echo "3. Leverage browser caching"
-echo "4. Enable GZIP compression"
-echo "5. Use a content delivery network (CDN) if possible"
-
-# 8.10. Implement internal linking strategy
-echo "Implement a robust internal linking strategy:"
-echo "1. Create a hierarchical structure for your content"
-echo "2. Link related content together"
-echo "3. Use descriptive anchor text for links"
-echo "4. Create a 'Related Articles' section on each page"
-
-echo "SEO optimization setup complete. Remember to regularly update content and monitor SEO performance."
+echo "SEO optimization setup complete."
 ```
+### This script implements several SEO optimizations for LookerHelp.com. After running this script:
+**1. A basic sitemap.xml and robots.txt file will be created.**
+**2. A Cloud Function for dynamically updating the sitemap based on GitBook content will be deployed.**
+**3. A daily Cloud Scheduler job will be set up to trigger sitemap updates.**
+**4. Structured data for the website will be generated.**
 
-### 9. Implement Analytics and Monitoring for LookerHelp.com
+### Next steps:
+**1. Upload the sitemap.xml and robots.txt files to your website's root directory.**
+**2. Add the structured data script to your website's <head> tag.**
+**3. Set up Google Search Console and submit your sitemap.**
+**4. Implement canonical URLs for all pages to avoid duplicate content issues.**
+**5. Optimize page load speed by minimizing CSS and JavaScript, and optimizing images.**
+**6. Implement an internal linking strategy to improve site structure and SEO.**
+**7. Regularly create high-quality, keyword-optimized content to improve search engine rankings.**
+
+## 9. Implement Analytics and Monitoring for LookerHelp.com
 
 ```bash
-#!/bin/bash
+# Ensure config.py exists and contains the necessary configuration
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
 
-# Set your Google Analytics Measurement ID
-GA_MEASUREMENT_ID="G-XXXXXXXXXX"
+# Read necessary values from config.py
+PROJECT_ID=$(python -c "import config; print(config.PROJECT_ID)")
+GA_MEASUREMENT_ID=$(python -c "import config; print(config.GA_MEASUREMENT_ID)")
 
 # 9.1. Set up Google Analytics
 echo "Setting up Google Analytics..."
@@ -1260,14 +1238,14 @@ gcloud alpha monitoring alerts create \
     --display-name="High Error Rate Alert" \
     --combiner=OR \
     --conditions="metric.type=\"cloudfunctions.googleapis.com/function/execution_count\" resource.type=\"cloud_function\" metric.label.status=\"error\" > 10" \
-    --notification-channels="projects/${PROJECT_ID}/notificationChannels/YOUR_NOTIFICATION_CHANNEL_ID"
+    --notification-channels="projects/${PROJECT_ID}/notificationChannels/channel-id-placeholder"
 
 # Create an alert for uptime check failures
 gcloud alpha monitoring alerts create \
     --display-name="Uptime Check Failure Alert" \
     --combiner=OR \
     --conditions="metric.type=\"monitoring.googleapis.com/uptime_check/check_passed\" resource.type=\"uptime_url\" < 1" \
-    --notification-channels="projects/${PROJECT_ID}/notificationChannels/YOUR_NOTIFICATION_CHANNEL_ID"
+    --notification-channels="projects/${PROJECT_ID}/notificationChannels/channel-id-placeholder"
 
 # 9.7. Set up custom logging for GitBook API calls
 cat << EOF > gitbook_logging.py
@@ -1289,94 +1267,167 @@ EOF
 
 echo "Add the gitbook_logging.py to your project and use the log_gitbook_api_call function to log GitBook API calls."
 
-# 9.8. Set up performance monitoring for Cloud Functions
-echo "To monitor Cloud Functions performance, use the following metrics in Cloud Monitoring:"
-echo "- cloudfunctions.googleapis.com/function/execution_times"
-echo "- cloudfunctions.googleapis.com/function/execution_count"
-echo "- cloudfunctions.googleapis.com/function/active_instances"
+echo "Analytics and Monitoring setup complete."
+``` 
+### This script sets up comprehensive analytics and monitoring for LookerHelp.com. After running this script:
+**1. Google Analytics will be set up with a tracking code ready to be added to your pages.**
+**2. Cloud Monitoring will be enabled with uptime checks for your main website and subdomains.**
+**3. A custom Cloud Monitoring dashboard will be created to visualize key metrics.**
+**4. Error Reporting will be enabled to track and analyze errors.**
+**5. Cloud Logging export to BigQuery will be set up for advanced log analysis.**
+**6. Alerts will be created for high error rates and uptime check failures.**
+**7. A custom logging function for GitBook API calls will be provided.**
 
-echo "Analytics and Monitoring setup complete. Remember to regularly review your dashboards and alerts to ensure optimal performance."
-```
-```
-This script sets up comprehensive analytics and monitoring for LookerHelp.com. Here's a breakdown of what it does:
+### Next steps:
+**1. Add the Google Analytics tracking code to all pages of your website.**
+**2. Replace 'channel-id-placeholder' in the alert setup commands with your actual notification channel ID.**
+**3. Integrate the custom GitBook API logging function into your application code.**
+**4. Set up additional custom metrics and alerts based on your specific needs.**
+**5. Regularly review the Cloud Monitoring dashboard and Error Reporting to identify and address issues.**
+**6. Use BigQuery to analyze exported logs and gain insights into your application's performance.**
+**7. Consider setting up additional uptime checks for critical API endpoints.**
+**8. Implement application-level logging throughout your codebase for more detailed insights.**
 
-1. Sets up Google Analytics for web traffic tracking.
-2. Configures Cloud Monitoring with uptime checks for your main website and subdomains.
-3. Creates a custom Cloud Monitoring dashboard for an overview of your site's performance.
-4. Enables Error Reporting for tracking and analyzing errors.
-5. Sets up Cloud Logging export to BigQuery for advanced log analysis.
-6. Creates alerts for high error rates and uptime check failures.
-7. Provides a custom logging function for GitBook API calls.
-8. Offers guidance on monitoring Cloud Functions performance.
-
-To use this script:
-
-1. Replace G-XXXXXXXXXX with your actual Google Analytics Measurement ID.
-2. Replace YOUR_NOTIFICATION_CHANNEL_ID with the ID of your preferred notification channel (e.g., email, SMS, Slack).
-3. Make sure you have the necessary permissions in your Google Cloud project to create these resources.
-```
-
-### 10. User Authentication and Access Control
+## 10. User Authentication and Access Control
 
 ```bash
-#!/bin/bash
+# Ensure config.py exists and contains the necessary configuration
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
+
+# Read necessary values from config.py
+PROJECT_ID=$(python -c "import config; print(config.PROJECT_ID)")
+GOOGLE_CLIENT_ID=$(python -c "import config; print(config.GOOGLE_CLIENT_ID)")
+GOOGLE_CLIENT_SECRET=$(python -c "import config; print(config.GOOGLE_CLIENT_SECRET)")
 
 # 10.1. Set up Google Auth integration
 echo "Setting up Google Auth integration..."
 
-# Install necessary libraries
-pip install google-auth google-auth-oauthlib google-auth-httplib2
+# Create a new directory for the auth Cloud Function
+mkdir -p cloud_functions/auth
+cd cloud_functions/auth
 
-# Create a configuration file for Google Auth
-cat << EOF > google_auth_config.py
+# Create requirements.txt
+cat << EOF > requirements.txt
+google-auth==2.3.3
+google-auth-oauthlib==0.4.6
+google-auth-httplib2==0.1.0
+google-cloud-bigquery==2.34.4
+Flask==2.0.2
+requests==2.26.0
+EOF
+
+# Create main.py
+cat << EOF > main.py
 import os
+from flask import Flask, request, jsonify
 from google.oauth2 import id_token
 from google.auth.transport import requests
+from google.cloud import bigquery
 
-CLIENT_ID = "your-google-client-id.apps.googleusercontent.com"
-CLIENT_SECRET = "your-google-client-secret"
+app = Flask(__name__)
+
+client = bigquery.Client()
+dataset_id = "lookerhelp_users"
+table_id = "users"
+
+GOOGLE_CLIENT_ID = os.environ.get('GOOGLE_CLIENT_ID')
 
 def verify_google_token(token):
     try:
-        idinfo = id_token.verify_oauth2_token(token, requests.Request(), CLIENT_ID)
+        idinfo = id_token.verify_oauth2_token(token, requests.Request(), GOOGLE_CLIENT_ID)
         if idinfo['iss'] not in ['accounts.google.com', 'https://accounts.google.com']:
             raise ValueError('Wrong issuer.')
         return idinfo
     except ValueError:
         return None
 
-def get_user_info(idinfo):
-    return {
-        'user_id': idinfo['sub'],
-        'email': idinfo['email'],
-        'name': idinfo['name']
-    }
+@app.route('/auth', methods=['POST'])
+def authenticate():
+    token = request.json.get('token')
+    user_info = verify_google_token(token)
+    
+    if user_info:
+        user_id = user_info['sub']
+        email = user_info['email']
+        
+        # Check if user exists in BigQuery
+        query = f"""
+        SELECT subscription_status FROM `{dataset_id}.{table_id}`
+        WHERE user_id = @user_id
+        """
+        job_config = bigquery.QueryJobConfig(
+            query_parameters=[
+                bigquery.ScalarQueryParameter("user_id", "STRING", user_id),
+            ]
+        )
+        query_job = client.query(query, job_config=job_config)
+        results = list(query_job)
+        
+        if not results:
+            # New user, insert into BigQuery
+            insert_query = f"""
+            INSERT INTO `{dataset_id}.{table_id}` (user_id, email, created_at, subscription_status)
+            VALUES (@user_id, @email, CURRENT_TIMESTAMP(), 'visitor')
+            """
+            job_config = bigquery.QueryJobConfig(
+                query_parameters=[
+                    bigquery.ScalarQueryParameter("user_id", "STRING", user_id),
+                    bigquery.ScalarQueryParameter("email", "STRING", email),
+                ]
+            )
+            insert_job = client.query(insert_query, job_config=job_config)
+            insert_job.result()
+            subscription_status = 'visitor'
+        else:
+            subscription_status = results[0]['subscription_status']
+        
+        return jsonify({
+            'user_id': user_id,
+            'email': email,
+            'subscription_status': subscription_status
+        }), 200
+    else:
+        return jsonify({'error': 'Invalid token'}), 401
+
+if __name__ == '__main__':
+    app.run(port=8080)
 EOF
 
-echo "Google Auth configuration created. Replace CLIENT_ID and CLIENT_SECRET with your actual values."
+# Deploy the Cloud Function
+echo "Deploying Auth Cloud Function..."
+gcloud functions deploy auth \
+  --runtime python39 \
+  --trigger-http \
+  --allow-unauthenticated \
+  --set-env-vars GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID \
+  --entry-point authenticate
 
-# 10.2. Set up user roles and permissions
-echo "Setting up user roles and permissions..."
+cd ../..
 
-# Create a BigQuery table for user roles
-bq mk \
-  --table \
-  --schema user_id:STRING,email:STRING,role:STRING \
-  $PROJECT_ID:lookerhelp_users.user_roles
+# 10.2. Set up user roles and permissions in BigQuery
+echo "Setting up user roles and permissions in BigQuery..."
+
+bq query --use_legacy_sql=false \
+"CREATE TABLE IF NOT EXISTS $PROJECT_ID.lookerhelp_users.user_roles
+(
+  user_id STRING,
+  role STRING
+)"
 
 # Insert sample data for different user roles
 bq query --use_legacy_sql=false \
-"INSERT INTO $PROJECT_ID.lookerhelp_users.user_roles (user_id, email, role)
+"INSERT INTO $PROJECT_ID.lookerhelp_users.user_roles (user_id, role)
 VALUES
-('visitor_1', 'visitor1@example.com', 'visitor'),
-('subscriber_1', 'subscriber1@example.com', 'subscriber'),
-('looker_1', 'looker1@example.com', 'looker'),
-('admin_1', 'admin@lookerhelp.com', 'admin')"
+('visitor_1', 'visitor'),
+('subscriber_1', 'subscriber'),
+('looker_1', 'looker')"
 
-# 10.3. Create access control for different content types
-echo "Creating access control for different content types..."
+# 10.3. Create a Cloud Function to check user access
+echo "Creating Cloud Function to check user access..."
 
-# Create a Cloud Function to check user access
 mkdir -p cloud_functions/check_user_access
 cd cloud_functions/check_user_access
 
@@ -1384,12 +1435,13 @@ cat << EOF > main.py
 from google.cloud import bigquery
 
 def check_user_access(request):
+    client = bigquery.Client()
+    
     user_id = request.args.get('user_id')
     content_type = request.args.get('content_type')
 
-    client = bigquery.Client()
     query = f"""
-    SELECT role FROM `{PROJECT_ID}.lookerhelp_users.user_roles`
+    SELECT role FROM `{client.project}.lookerhelp_users.user_roles`
     WHERE user_id = @user_id
     """
     job_config = bigquery.QueryJobConfig(
@@ -1404,8 +1456,7 @@ def check_user_access(request):
     access_rules = {
         'visitor': ['free'],
         'subscriber': ['free', 'basic'],
-        'looker': ['free', 'basic', 'premium'],
-        'admin': ['free', 'basic', 'premium', 'admin']
+        'looker': ['free', 'basic', 'premium']
     }
 
     has_access = content_type in access_rules.get(user_role, [])
@@ -1415,6 +1466,7 @@ def check_user_access(request):
 EOF
 
 # Deploy the Cloud Function
+echo "Deploying Check User Access Cloud Function..."
 gcloud functions deploy check_user_access \
   --runtime python39 \
   --trigger-http \
@@ -1424,27 +1476,66 @@ cd ../..
 
 echo "User Authentication and Access Control setup complete."
 ```
+### This script sets up user authentication using Google Auth and implements access control based on user roles. After running this script:
+**1. A Cloud Function for handling Google Auth will be deployed.**
+**2. User data will be stored and managed in BigQuery.**
+**3. A system for managing user roles and permissions will be set up in BigQuery.**
+**4. A Cloud Function for checking user access based on their role will be deployed.**
 
-### 11. User Documentation
+### Next steps:
+**1. Integrate the authentication Cloud Function with your frontend application.**
+**2. Implement the user access check in your application logic to control access to different content types.**
+**3. Set up a process to upgrade users from 'visitor' to 'subscriber' or 'looker' based on their actions (e.g., payment).**
+**4. Implement proper error handling and logging in both Cloud Functions.**
+**5. Secure the Cloud Functions appropriately for production use.**
+**6. Consider implementing rate limiting to prevent abuse of the authentication system.**
+**7. Regularly audit user roles and permissions to ensure they are up to date.**
+
+## 11. User Documentation
 
 ```bash
-#!/bin/bash
+# Ensure config.py exists and contains the necessary configuration
+if [ ! -f config.py ]; then
+    echo "Error: config.py file not found. Please create it with the necessary configuration."
+    exit 1
+fi
+
+# Read necessary values from config.py
+GITBOOK_API_TOKEN=$(python -c "import config; print(config.GITBOOK_API_TOKEN)")
+DOCS_SPACE_ID=$(python -c "import config; print(config.DOCS_SPACE_ID)")
 
 # 11.1. Create user documentation structure
 echo "Creating user documentation structure..."
 
-mkdir -p docs/user_guide
-cd docs/user_guide
+# Function to create a page in GitBook
+create_gitbook_page() {
+    local space_id=$1
+    local title=$2
+    local content=$3
+    
+    response=$(curl -X POST "https://api.gitbook.com/v1/spaces/$space_id/content" \
+      -H "Authorization: Bearer $GITBOOK_API_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d "{
+        \"title\": \"$title\",
+        \"type\": \"page\",
+        \"content\": \"$content\"
+      }")
+    
+    echo $response
+}
 
 # 11.2. Create main user guide sections
-cat << EOF > getting_started.md
-# Getting Started with LookerHelp
+echo "Creating main user guide sections..."
+
+# Getting Started page
+getting_started_content="# Getting Started with LookerHelp
 
 Welcome to LookerHelp! This guide will help you get started with our platform.
 
 ## Creating an Account
 1. Visit [LookerHelp.com](https://lookerhelp.com)
-2. Click on "Sign Up" in the top right corner
+2. Click on \"Sign Up\" in the top right corner
 3. Choose to sign up with your Google account
 4. Follow the prompts to complete your registration
 
@@ -1460,12 +1551,12 @@ Welcome to LookerHelp! This guide will help you get started with our platform.
 
 ## Getting Help
 - Using the Slack community: [How to join and use the Slack channel]
-- Contacting support: [How to reach out for additional help]
+- Contacting support: [How to reach out for additional help]"
 
-EOF
+create_gitbook_page $DOCS_SPACE_ID "Getting Started" "$getting_started_content"
 
-cat << EOF > using_lookernomicon.md
-# Using Lookernomicon AI Agent
+# Using Lookernomicon AI Agent page
+lookernomicon_content="# Using Lookernomicon AI Agent
 
 Lookernomicon is our AI-powered assistant designed to help you with all things Looker.
 
@@ -1483,42 +1574,106 @@ Lookernomicon is our AI-powered assistant designed to help you with all things L
 ## Tips for Best Results
 - Be specific in your questions
 - Provide context when necessary
-- If Lookernomicon doesn't understand, try rephrasing your question
+- If Lookernomicon doesn't understand, try rephrasing your question"
 
-EOF
+create_gitbook_page $DOCS_SPACE_ID "Using Lookernomicon AI Agent" "$lookernomicon_content"
 
-cat << EOF > subscription_management.md
-# Managing Your Subscription
+# Subscription Management page
+subscription_content="# Managing Your Subscription
 
 Learn how to manage your LookerHelp subscription.
 
 ## Upgrading Your Account
 1. Log in to your account
-2. Navigate to the "Subscription" page
+2. Navigate to the \"Subscription\" page
 3. Choose the plan you want to upgrade to
 4. Follow the prompts to complete payment through Stripe
 
 ## Changing or Cancelling Your Subscription
 1. Log in to your account
-2. Navigate to the "Subscription" page
-3. Select "Change Plan" or "Cancel Subscription"
+2. Navigate to the \"Subscription\" page
+3. Select \"Change Plan\" or \"Cancel Subscription\"
 4. Follow the prompts to confirm your changes
 
 ## Billing and Invoices
 - Accessing your billing history
 - Understanding your invoice
-- Updating payment information
+- Updating payment information"
 
-EOF
+create_gitbook_page $DOCS_SPACE_ID "Subscription Management" "$subscription_content"
 
 echo "User documentation structure created. Expand on these files and create additional documentation as needed."
-
-cd ../..
 ```
+## 11.3 Build Ticketing App (Non-MVP)
 
-### 12. Testing Checklist
+### Overview
+Develop a ticketing system using Gmail labels, integrated with Slack functions, workflows, and triggers. This system will use dion@lookerhelp.com as an alias for dion@wrench.chat on the Slack workspace lookernomicon.slack.com.
+
+### Requirements
+1. Gmail Integration:
+   - Set up labels in Gmail for ticket status (New, In Progress, Resolved)
+   - Create labels for priority levels (High, Medium, Low)
+   - Implement labels for issue categories (Technical, Billing, Feature Request)
+2. Slack Integration:
+   - Use Slack's Gmail integration for notifications
+   - Set up Slack workflow to create emails from Slack messages
+   - [Slack API](https://api.slack.com/#)
+3. Automation:
+   - Implement Google Apps Script to:
+     - Assign ticket numbers to new emails
+     - Set up time-based triggers for ticket escalation
+     - Generate reports of ticket status and resolution times
+4. Workflow:
+   - Incoming email or Slack message creates a new ticket
+   - Automatic labeling based on content analysis
+   - Slack notification sent to support channel
+   - Team members claim tickets with "Assigned to [Name]" label
+   - Update labels as ticket progresses
+5. Response Management:
+   - Use Gmail's canned responses for common issues
+   - Implement personalized response suggestions
+6. Reporting:
+   - Generate Daily Slack Report
+   - Generate Priority Alerts
+
+### Implementation Steps
+
+1. Set up Gmail account and configure labels
+2. Integrate Gmail with Slack workspace
+3. Develop Google Apps Script for automation
+4. Create Slack workflows for ticket creation and updates
+5. Implement content analysis for automatic labeling (optional: use AI for enhanced analysis)
+6. Set up reporting system using Google Sheets
+7. Test the system thoroughly with sample tickets
+8. Train team on using the new ticketing system
+
+### Considerations
+
+- Ensure GDPR compliance for handling user data
+- Implement proper error handling and logging
+- Consider scalability for future growth
+- Regularly review and optimize the ticketing process based on team feedback
+
+Note: This ticketing system is considered a non-MVP feature and should be implemented after core functionalities are in place.
+
+### This script sets up the basic structure for user documentation in GitBook. After running this script:
+**1. A "Getting Started" page will be created with basic information about using LookerHelp.**
+**2. A "Using Lookernomicon AI Agent" page will be created with instructions on how to use the AI assistant.**
+**3. A "Subscription Management" page will be created with information on managing subscriptions.**
+
+### Next steps:
+**1. Review the created content in the GitBook web interface.**
+**2. Expand on the content for each page, adding more detailed information and examples.**
+**3. Create additional documentation pages as needed (e.g., FAQs, troubleshooting guides, advanced features).**
+**4. Add images, diagrams, or videos to enhance the documentation.**
+**5. Set up a process for regularly reviewing and updating the documentation.**
+**6. Consider creating a feedback mechanism for users to suggest improvements or report issues with the documentation.**
+**7. Implement a versioning strategy for your documentation to keep it in sync with your product updates.**
+
+## 12. Testing Checklist
 
 ```bash
+# Create a markdown file for the testing checklist
 cat << EOF > testing_checklist.md
 # LookerHelp Testing Checklist
 
@@ -1581,25 +1736,81 @@ cat << EOF > testing_checklist.md
 - [ ] Test restore process from a backup
 - [ ] Ensure all critical data is included in backups
 
+## User Experience
+- [ ] Test navigation flow for all user types
+- [ ] Verify responsive design on various devices
+- [ ] Check accessibility compliance
+- [ ] Test all forms for proper validation and submission
+
+## Content
+- [ ] Review all documentation for accuracy
+- [ ] Verify all links are working correctly
+- [ ] Check formatting consistency across all pages
+- [ ] Ensure all images and media are loading properly
+
 EOF
 
 echo "Testing checklist created. Use this for manual testing before launch and for regular maintenance checks."
 ```
+### This script creates a comprehensive testing checklist for LookerHelp. After running this script:
+**1. A markdown file named 'testing_checklist.md' will be created in your current directory.**
+**2. The checklist covers various aspects of the LookerHelp platform, including authentication, integrations, performance, and security.**
 
-### 13. Launch Preparation
+### Next steps:
+**1. Review the checklist and customize it based on your specific implementation details.**
+**2. Assign team members to different sections of the checklist.**
+**3. Set up a regular testing schedule to go through this checklist.**
+**4. Consider automating some of these tests where possible.**
+**5. Use the results of these tests to prioritize bug fixes and improvements.**
+**6. Update the checklist as new features are added to the platform.**
+**7. Implement a system to track the results of each test run.**
+**8. Consider creating separate, more detailed checklists for critical components.**
+
+## 13. Launch Preparation
 
 ```bash
+# Create a markdown file for the launch checklist
 cat << EOF > launch_checklist.md
 # LookerHelp Launch Checklist
 
 ## Pre-Launch Tasks
+
+### Content
 - [ ] Finalize all content in GitBook spaces
+- [ ] Proofread all documentation for accuracy and clarity
+- [ ] Ensure all images and media are optimized and loading correctly
+- [ ] Verify all internal and external links are working
+
+### Technical
 - [ ] Complete and test all integrations (Stripe, Slack, Google Auth)
 - [ ] Run through entire Testing Checklist (see testing_checklist.md)
+- [ ] Verify all Cloud Functions are deployed and working correctly
+- [ ] Ensure all API endpoints are secure and functioning as expected
+- [ ] Check that all environment variables and configuration settings are correctly set
+
+### Monitoring and Analytics
 - [ ] Set up monitoring and alerting systems
+- [ ] Verify Google Analytics is tracking correctly on all pages
+- [ ] Set up custom event tracking for key user actions
+- [ ] Ensure Error Reporting is configured and capturing issues
+
+### Security
+- [ ] Perform a final security audit
+- [ ] Verify SSL certificates are properly installed and up-to-date
+- [ ] Ensure all sensitive data is properly encrypted
+- [ ] Check that user authentication and authorization are working correctly
+
+### Legal and Compliance
+- [ ] Review and update Terms of Service if necessary
+- [ ] Verify Privacy Policy is up-to-date and compliant with relevant laws
+- [ ] Ensure GDPR compliance (if applicable)
+- [ ] Check for any necessary legal disclaimers on the site
+
+### Marketing and Communication
 - [ ] Prepare launch announcement for existing channels (email, social media)
+- [ ] Create a press release (if applicable)
 - [ ] Brief support team on potential user questions
-- [ ] Verify all legal documents are up-to-date (Terms of Service, Privacy Policy)
+- [ ] Prepare FAQ document for common launch queries
 
 ## Launch Day Tasks
 - [ ] Verify all systems are operational
@@ -1608,17 +1819,140 @@ cat << EOF > launch_checklist.md
 - [ ] Be ready to scale resources if needed
 - [ ] Send out launch announcements
 - [ ] Monitor social media and support channels for user feedback
+- [ ] Have team on standby for quick issue resolution
 
 ## Post-Launch Tasks
 - [ ] Gather and analyze initial user feedback
 - [ ] Monitor key performance indicators (signups, engagement, etc.)
 - [ ] Address any issues or bugs promptly
 - [ ] Begin planning for future feature releases
+- [ ] Conduct a post-launch team review to discuss lessons learned
+
+## Gradual Rollout Plan
+1. Soft Launch (Week 1):
+   - [ ] Invite a small group of beta testers
+   - [ ] Collect and act on initial feedback
+   - [ ] Verify all systems under real-world usage
+
+2. Limited Public Launch (Week 2):
+   - [ ] Open registration to a larger group
+   - [ ] Monitor system performance and user behavior
+   - [ ] Continue collecting and acting on feedback
+
+3. Full Public Launch (Week 3):
+   - [ ] Remove any registration restrictions
+   - [ ] Ramp up marketing efforts
+   - [ ] Closely monitor all systems for potential issues
+
+4. Post-Launch Optimization (Weeks 4-8):
+   - [ ] Analyze user behavior and feedback
+   - [ ] Implement quick wins and bug fixes
+   - [ ] Plan for longer-term improvements and features
 
 EOF
 
 echo "Launch checklist created. Use this to ensure a smooth launch process."
+
+# Create a timeline file
+cat << EOF > launch_timeline.md
+# LookerHelp Launch Timeline
+
+## Week -2: Final Preparations
+- Complete all development tasks
+- Finalize content
+- Conduct thorough testing
+
+## Week -1: Pre-Launch
+- Address any last-minute issues
+- Prepare marketing materials
+- Brief team on launch process
+
+## Launch Week
+- Day 1: Soft launch to beta testers
+- Day 3: Address initial feedback
+- Day 5: Expand to limited public launch
+
+## Week +1: Public Launch
+- Day 1: Full public launch
+- Day 2-7: Close monitoring and quick fixes
+
+## Week +2-4: Stabilization
+- Gather and analyze user feedback
+- Implement high-priority improvements
+- Plan for future feature releases
+
+## Month +2: Review and Plan
+- Conduct comprehensive launch review
+- Set goals for next quarter
+- Begin work on next major feature set
+
+EOF
+
+echo "Launch timeline created. Adjust dates as necessary for your specific launch plan."
 ```
----
-# Content Worklist
+### This script creates two important documents for your launch preparation:
+**1. A comprehensive launch checklist (launch_checklist.md) covering pre-launch, launch day, and post-launch tasks.**
+**2. A basic launch timeline (launch_timeline.md) outlining key milestones from final preparations to post-launch review.**
+
+### Next steps:
+**1. Review both the launch checklist and timeline, adjusting them to fit your specific needs and schedule.**
+**2. Assign team members to different sections of the launch checklist.**
+**3. Set up regular meetings to go through the checklist and update the timeline as you progress.**
+**4. Create a communication plan for keeping all stakeholders informed during the launch process.**
+**5. Prepare contingency plans for potential issues that might arise during launch.**
+**6. Consider creating a separate, more detailed technical checklist for your development team.**
+**7. Set up a system for tracking and prioritizing user feedback received during and after launch.**
+**8. Plan for a post-launch retrospective to gather lessons learned and improve future processes.**
+
+## 14. Partnership with Looker Consultancy
+
+### Objective
+Establish a partnership with a consultancy that has an active Looker instance to enhance LookerHelp's capabilities and offer more comprehensive services to users.
+
+### Requirements
+1. Identify potential consultancy partners with:
+   - Active Looker instance
+   - Willingness to collaborate on LookerHelp project
+   - Alignment with LookerHelp's mission and values
+
+2. Negotiate partnership terms, including:
+   - Access to Looker instance for testing and development
+   - Collaborative content creation
+   - Potential revenue sharing model
+   - Data privacy and security agreements
+
+3. Technical integration:
+   - Secure API access to partner's Looker instance
+   - Implement authentication and authorization mechanisms
+   - Develop sandboxing or isolation features to protect partner's data
+
+4. Service enhancements:
+   - Offer live LookML testing environment for LookerHelp users
+   - Provide real-world performance testing for user-created LookML
+   - Enable more accurate and comprehensive LookML validation
+
+5. Knowledge sharing:
+   - Collaborate on advanced Looker tutorials and case studies
+   - Share best practices based on real-world implementations
+   - Offer joint webinars or training sessions
+
+6. Legal considerations:
+   - Draft and sign necessary legal agreements (NDA, MOU, etc.)
+   - Ensure compliance with Looker's terms of service
+   - Address any licensing concerns
+
+### Success Criteria
+- Successful integration with partner's Looker instance
+- Enhanced LookML testing and validation capabilities for LookerHelp users
+- Increased value proposition for LookerHelp subscribers
+- Positive feedback from users on new features enabled by the partnership
+
+### Timeline
+- To be initiated after core LookerHelp features are stable and user base is established
+- Aim to have partnership in place within 6-12 months of LookerHelp launch
+
+### Considerations
+- Ensure the partnership doesn't create conflicts of interest or compromise LookerHelp's independence
+- Regularly review and adjust the partnership to maintain mutual benefit
+- Be prepared to explore multiple potential partners if necessary
 
