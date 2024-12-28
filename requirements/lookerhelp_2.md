@@ -38,6 +38,26 @@ echo "Docs Space ID: $DOCS_SPACE_ID"
 SCRIPTS_SPACE_ID=$(create_gitbook_space "LookerHelp Scripts" "public")
 echo "Scripts Space ID: $SCRIPTS_SPACE_ID"
 
+# Update config.py with space IDs
+echo "Updating config.py with space IDs..."
+python -c "
+import config
+config_file = 'config.py'
+with open(config_file, 'r') as f:
+    lines = f.readlines()
+with open(config_file, 'w') as f:
+    for line in lines:
+        if line.startswith('MAIN_SPACE_ID ='):
+            f.write(f'MAIN_SPACE_ID = \"{MAIN_SPACE_ID}\"\\n')
+        elif line.startswith('DOCS_SPACE_ID ='):
+            f.write(f'DOCS_SPACE_ID = \"{DOCS_SPACE_ID}\"\\n')
+        elif line.startswith('SCRIPTS_SPACE_ID ='):
+            f.write(f'SCRIPTS_SPACE_ID = \"{SCRIPTS_SPACE_ID}\"\\n')
+        else:
+            f.write(line)
+"
+echo "config.py updated with space IDs."
+
 # Note: Custom domain setup must be done manually in the GitBook UI
 echo "Remember to set up custom domains for each space in the GitBook UI"
 ```
