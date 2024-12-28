@@ -23,12 +23,10 @@ I'm dedicated to empowering data teams through innovative, efficient approaches 
    - Access to basic documentation
 
 2. **Subscriber (Free, requires authentication)**
-   - Full access to documentation
-   - Access to Slack community
+   - Full access to docs and scripts
 
 3. **Looker ($9.99/month, rate limits may apply)**
    - All Subscriber benefits
-   - Access to script library
    - Access to Lookernomicon AI Assistant via Slack
 
 [Sign Up Now](#)
