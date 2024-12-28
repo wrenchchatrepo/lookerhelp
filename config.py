@@ -9,10 +9,16 @@ GCP_BUCKET_NAME = "agent_miguel_looker_bucket"
 GOOGLE_ANALYTICS_PROPERTY_ID = "446440745"
 
 # Domain Configuration
-DOMAIN_MAIN = "lookerhelp.com"
+DOMAIN = "lookerhelp.com"
 DOMAIN_DOCS = "docs.lookerhelp.com"
 DOMAIN_SCRIPTS = "scripts.lookerhelp.com"
-DOMAIN_MAIN_SITE = "main.lookerhelp.com"
+DOMAIN_MAIN = "main.lookerhelp.com"
+
+# Subdomain Configuration
+CNAME_DOCS = "3581f1363d-hosting.gitbook.io."
+CNAME_SCRIPTS = "2f1176a1b4-hosting.gitbook.io."
+CNAME_MAIN = "2f1176a1b4-hosting.gitbook.io."
+CNAME_WWW = "lookerhelp.com."
 
 # Organization Details
 COMPANY_NAME = "Austin Creators Local LLC"
@@ -30,6 +36,9 @@ GITHUB_REPO = "https://github.com/wrenchchatrepo/lookerhelp"
 GITBOOK_DOCS_URL = "https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/OrDhJ8S0ks7gp1RRFX1D/"
 GITBOOK_SCRIPTS_URL = "https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/H6zDeCfcy4ilPETyHJGZ/"
 GITBOOK_MAIN_URL = "https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/bYUIzYd1ysoGdIVzXYQm/"
+DOCS_SPACE_ID = "OrDhJ8S0ks7gp1RRFX1D"
+SCRIPTS_SPACE_ID = "H6zDeCfcy4ilPETyHJGZ"
+MAIN_SPACE_ID = "bYUIzYd1ysoGdIVzXYQm"
 
 # LinkedIn
 LINKEDIN_PERSONAL = "https://www.linkedin.com/in/dionedge"
