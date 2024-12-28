@@ -12,6 +12,7 @@ GOOGLE_ANALYTICS_PROPERTY_ID = "446440745"
 DOMAIN_MAIN = "lookerhelp.com"
 DOMAIN_DOCS = "docs.lookerhelp.com"
 DOMAIN_SCRIPTS = "scripts.lookerhelp.com"
+DOMAIN_MAIN_SITE = "main.lookerhelp.com"
 
 # Organization Details
 COMPANY_NAME = "Austin Creators Local LLC"
@@ -26,8 +27,9 @@ STRIPE_PAYMENT_LINK = "https://buy.stripe.com/5kAaG9gw99e47Cw8ww"
 GITHUB_REPO = "https://github.com/wrenchchatrepo/lookerhelp"
 
 # GitBook
-GITBOOK_DOCS_URL = "https://docs.lookerhelp.com/"
-GITBOOK_SCRIPTS_URL = "https://scripts.lookerhelp.com/"
+GITBOOK_DOCS_URL = "https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/OrDhJ8S0ks7gp1RRFX1D/"
+GITBOOK_SCRIPTS_URL = "https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/H6zDeCfcy4ilPETyHJGZ/"
+GITBOOK_MAIN_URL = "https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/bYUIzYd1ysoGdIVzXYQm/"
 
 # LinkedIn
 LINKEDIN_PERSONAL = "https://www.linkedin.com/in/dionedge"
