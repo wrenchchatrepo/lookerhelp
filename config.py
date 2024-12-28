@@ -53,3 +53,4 @@ COLOR_PALETTE = {
 }
 
 # Add any other non-sensitive configuration parameters here
+# /Users/dionedge/dev/lookerhelp/lookerhelp and slack.txt
