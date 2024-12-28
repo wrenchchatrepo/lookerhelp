@@ -1,3 +1,5 @@
+# LookerHelp.com
+
 ## MVP Definition
 
 The Minimum Viable Product (MVP) for LookerHelp consists of:
@@ -30,6 +32,7 @@ The Minimum Viable Product (MVP) for LookerHelp consists of:
    - Essential Cloud Monitoring
 
 ### Out of Scope for MVP:
+
 - Advanced analytics features
 - Complex customizations of the AI agent
 - Extensive marketing automation
@@ -82,15 +85,19 @@ echo "Remember to set up custom domains for each space in the GitBook UI"
 ```
 ### This script uses the GitBook API to create the necessary spaces for LookerHelp. After running this script:
 **1. You'll have three GitBook spaces created: main site, docs, and scripts.**
+
 **2. The space IDs will be printed, which you should save for future use.**
+
 **3. Custom domain setup still needs to be done manually in the GitBook UI.**
 
 ### Next steps:
 **1. Replace your_gitbook_api_token with your actual GitBook API token.**
-**2. Run this script to create the spaces.**
-**3. Save the returned space IDs for use in future API calls.**
-**4. Manually set up custom domains in the GitBook UI for each space.**
 
+**2. Run this script to create the spaces.**
+
+**3. Save the returned space IDs for use in future API calls.**
+
+**4. Manually set up custom domains in the GitBook UI for each space.**
 
 ## 2. Set up Initial Content Structure in GitBook
 
@@ -151,19 +158,28 @@ update_space_metadata $DOCS_SPACE_ID "In-depth Looker documentation and tutorial
 update_space_metadata $SCRIPTS_SPACE_ID "A curated collection of useful Looker scripts"
 ```
 ### This script sets up the basic content structure for your GitBook spaces. After running this script:
+
 **1. The main LookerHelp space will have Welcome, About, Pricing, and Contact pages.**
+
 **2. The Docs space will have a main documentation page, Getting Started, and Advanced Topics pages.**
+
 **3. The Scripts space will have a main scripts page, LookML Scripts, and Data Analysis Scripts pages.**
+
 **4. Each space will have an updated description.**
 
 ### Next steps:
+
 **1. Review the created content in the GitBook web interface.**
+
 **2. Customize and expand the content for each page as needed.**
+
 **3. Set up the navigation structure for each space in the GitBook web interface.**
+
 **4. Consider adding more pages and structure as your content grows.**
 
 ## 3. Set up User Management System in BigQuery
 
+```bash
 # Ensure config.py exists and contains the necessary GCP project ID
 if [ ! -f config.py ]; then
     echo "Error: config.py file not found. Please create it with the necessary configuration."
@@ -289,15 +305,23 @@ gcloud functions deploy get_user \
 cd ../..
 ```
 ### This script sets up a user management system in BigQuery and deploys Cloud Functions for user operations. After running this script:
+
 **1. A BigQuery dataset named 'lookerhelp_users' will be created.**
+
 **2. A 'users' table will be created in the dataset with fields for user_id, email, created_at, subscription_status, and last_login.**
+
 **3. Two Cloud Functions will be deployed: 'user_management' for creating/updating users, and 'get_user' for retrieving user information.**
 
 ### Next steps:
+
 **1. Test the Cloud Functions to ensure they're working correctly.**
+
 **2. Integrate these functions with your authentication flow (e.g., after Google Sign-In).**
+
 **3. Implement proper error handling and logging in the Cloud Functions.**
+
 **4. Secure the Cloud Functions appropriately for production use.**
+
 **5. Consider adding more user management functions as needed (e.g., delete user, update subscription).**
 
 ## 4. Set up Stripe Integration for Subscriptions
@@ -523,19 +547,31 @@ gcloud functions deploy create_checkout_session \
 
 cd ../..
 ```
+
 ### This script sets up Stripe integration for handling subscriptions. After running this script:
+
 **1. A Cloud Function for handling Stripe webhooks will be deployed.**
+
 **2. A Cloud Function for creating Stripe Checkout sessions will be deployed.**
+
 **3. The webhook function will update user subscription status in BigQuery based on Stripe events.**
+
 **4. The checkout session function will create a Stripe Checkout session for the $9.99/month subscription.**
 
 ### Next steps:
+
 **1. Replace 'price_1234567890' in the create_checkout_session function with your actual Stripe Price ID for the $9.99/month subscription.**
+
 **2. Set up a webhook in your Stripe account dashboard to point to the stripe_webhook Cloud Function URL.**
+
 **3. Update the success_url and cancel_url in the create_checkout_session function to match your actual URLs.**
+
 **4. Implement the frontend code to call the create_checkout_session function when a user wants to subscribe.**
+
 **5. Test the entire subscription flow to ensure it's working correctly.**
+
 **6. Implement proper error handling and logging in both Cloud Functions.**
+
 **7. Secure the Cloud Functions appropriately for production use.**
 
 ## 5. Set up Slack Integration for Lookernomicon AI Agent
@@ -718,30 +754,45 @@ gcloud scheduler jobs create pubsub daily-slack-validation \
     --message-body "Run daily Slack user validation"
 
 cd ../..
-
+```
 
 ### This script sets up the Slack integration for the Lookernomicon AI Agent and a daily user validation process. After running this script:
+
 **1. The script will check for the existence of both .env and config.py files.**
+
 **2. Cloud Functions will be deployed using configuration from config.py.**
+
 **3. The Slack bot will check user subscription status before responding.**
+
 **4. A daily Slack user validation process will be set up.**
 
 ### Next steps:
+
 **1. Ensure your config.py file contains the following variables:**
+
    **- SLACK_BOT_TOKEN = "xoxb-your-bot-token"**
+
    **- SLACK_SIGNING_SECRET = "your-signing-secret"**
+
    **- SLACK_CHANNEL_ID = "your-channel-id"**
+
    **- PROJECT_ID = "miguelai"**
+
 **2. Replace the placeholder values in config.py with your actual credentials and IDs.**
+
 **3. Set up your Slack app in the Slack API website as described in previous steps.**
+
 **4. Install the Slack app to your workspace.**
+
 **5. Test the Slack bot by mentioning it in the Lookernomicon channel.**
+
 **6. Monitor the daily user validation process to ensure it's working correctly.**
+
 **7. Implement proper error handling and logging in both Cloud Functions.**
+
 **8. Secure the Cloud Functions appropriately for production use.**
+
 **9. Consider implementing rate limiting to prevent abuse of the Lookernomicon AI Agent.**
-**10. Test the Slack API calls to ensure they are working correctly.**
-**11. Consider a rollback plan if the Cloud Function deployment fails.**
 
 ## 6. Set up Cloud Logging for All Active APIs
 
@@ -812,19 +863,26 @@ update_function_logging "slack_bot" "cloud_functions/slack_bot"
 
 echo "Cloud Logging setup complete for all active APIs."
 ```
+
 ### This script sets up Cloud Logging for all active APIs and updates existing Cloud Functions to use structured logging. After running this script:
+
 **1. Cloud Logging API will be enabled for your project.**
+
 **2. A custom log bucket will be created for better log organization.**
+
 **3. All existing Cloud Functions will be updated to use structured logging.**
+
 **4. Cloud Functions will be redeployed with the logging changes.**
 
 ### Next steps:
+
 **1. Verify that logs are being correctly sent to Cloud Logging for each function.**
+
 **2. Set up log-based metrics and alerts in Google Cloud Console to monitor your application's health and performance.**
+
 **3. Consider setting up log exports to BigQuery for long-term storage and analysis if needed.**
+
 **4. Implement more detailed logging in your application code to capture important events and errors.**
-**5. Test the Cloud Logging setup to ensure it is working correctly.**
-**6. Consider a rollback plan if the Cloud Function deployment fails.**
 
 ## 7. Set up GitBook to LinkedIn Content Sharing
 
@@ -936,19 +994,26 @@ cd ../..
 
 echo "GitBook to LinkedIn content sharing setup complete."
 ```
+
 ### This script sets up a Cloud Function to handle GitBook webhooks and post content updates to LinkedIn. After running this script:
+
 **1. A Cloud Function will be deployed to handle GitBook webhooks.**
+
 **2. The function will verify the GitBook webhook signature for security.**
+
 **3. When content is updated in GitBook, a post will be created on the LinkedIn company page.**
 
 ### Next steps:
+
 **1. Set up a webhook in GitBook pointing to the URL of the deployed Cloud Function.**
+
 **2. Test the integration by updating content in GitBook and verifying that it appears on LinkedIn.**
+
 **3. Monitor the Cloud Function logs to ensure it's working correctly and to troubleshoot any issues.**
+
 **4. Consider implementing rate limiting to avoid overwhelming the LinkedIn API.**
+
 **5. Implement more sophisticated content filtering or formatting if needed.**
-**6. Test the LinkedIn API calls to ensure they are working correctly.**
-**7. Consider a rollback plan if the Cloud Function deployment fails.**
 
 ## 8. Implement SEO Optimization for LookerHelp.com
 
@@ -1104,22 +1169,32 @@ echo "</script>"
 
 echo "SEO optimization setup complete."
 ```
+
 ### This script implements several SEO optimizations for LookerHelp.com. After running this script:
+
 **1. A basic sitemap.xml and robots.txt file will be created.**
+
 **2. A Cloud Function for dynamically updating the sitemap based on GitBook content will be deployed.**
+
 **3. A daily Cloud Scheduler job will be set up to trigger sitemap updates.**
+
 **4. Structured data for the website will be generated.**
 
 ### Next steps:
+
 **1. Upload the sitemap.xml and robots.txt files to your website's root directory.**
+
 **2. Add the structured data script to your website's <head> tag.**
+
 **3. Set up Google Search Console and submit your sitemap.**
+
 **4. Implement canonical URLs for all pages to avoid duplicate content issues.**
+
 **5. Optimize page load speed by minimizing CSS and JavaScript, and optimizing images.**
+
 **6. Implement an internal linking strategy to improve site structure and SEO.**
+
 **7. Regularly create high-quality, keyword-optimized content to improve search engine rankings.**
-**8. Test the Cloud Function to ensure it is working correctly.**
-**9. Consider a rollback plan if the Cloud Function deployment fails.**
 
 ## 9. Implement Analytics and Monitoring for LookerHelp.com
 
@@ -1277,28 +1352,40 @@ echo "Add the gitbook_logging.py to your project and use the log_gitbook_api_cal
 
 echo "Analytics and Monitoring setup complete."
 ``` 
+
 ### This script sets up comprehensive analytics and monitoring for LookerHelp.com. After running this script:
+
 **1. Google Analytics will be set up with a tracking code ready to be added to your pages.**
+
 **2. Cloud Monitoring will be enabled with uptime checks for your main website and subdomains.**
+
 **3. A custom Cloud Monitoring dashboard will be created to visualize key metrics.**
+
 **4. Error Reporting will be enabled to track and analyze errors.**
+
 **5. Cloud Logging export to BigQuery will be set up for advanced log analysis.**
+
 **6. Alerts will be created for high error rates and uptime check failures.**
+
 **7. A custom logging function for GitBook API calls will be provided.**
 
 ### Next steps:
+
 **1. Add the Google Analytics tracking code to all pages of your website.**
+
 **2. Replace 'channel-id-placeholder' in the alert setup commands with your actual notification channel ID.**
+
 **3. Integrate the custom GitBook API logging function into your application code.**
+
 **4. Set up additional custom metrics and alerts based on your specific needs.**
+
 **5. Regularly review the Cloud Monitoring dashboard and Error Reporting to identify and address issues.**
+
 **6. Use BigQuery to analyze exported logs and gain insights into your application's performance.**
+
 **7. Consider setting up additional uptime checks for critical API endpoints.**
+
 **8. Implement application-level logging throughout your codebase for more detailed insights.**
-**9. Test the Google Analytics setup to ensure it is working correctly.**
-**10. Test the Cloud Monitoring setup to ensure it is working correctly.**
-**11. Test the Error Reporting setup to ensure it is working correctly.**
-**12. Consider a rollback plan if the Cloud Monitoring setup fails.**
 
 ## 10. User Authentication and Access Control
 
@@ -1488,23 +1575,32 @@ cd ../..
 
 echo "User Authentication and Access Control setup complete."
 ```
+
 ### This script sets up user authentication using Google Auth and implements access control based on user roles. After running this script:
+
 **1. A Cloud Function for handling Google Auth will be deployed.**
+
 **2. User data will be stored and managed in BigQuery.**
+
 **3. A system for managing user roles and permissions will be set up in BigQuery.**
+
 **4. A Cloud Function for checking user access based on their role will be deployed.**
 
 ### Next steps:
+
 **1. Integrate the authentication Cloud Function with your frontend application.**
+
 **2. Implement the user access check in your application logic to control access to different content types.**
+
 **3. Set up a process to upgrade users from 'visitor' to 'subscriber' or 'looker' based on their actions (e.g., payment).**
+
 **4. Implement proper error handling and logging in both Cloud Functions.**
+
 **5. Secure the Cloud Functions appropriately for production use.**
+
 **6. Consider implementing rate limiting to prevent abuse of the authentication system.**
+
 **7. Regularly audit user roles and permissions to ensure they are up to date.**
-**8. Test the Google Auth setup to ensure it is working correctly.**
-**9. Test the BigQuery queries to ensure they are working correctly.**
-**10. Consider a rollback plan if the Cloud Function deployment fails.**
 
 ## 11. User Documentation
 
@@ -1619,34 +1715,41 @@ create_gitbook_page $DOCS_SPACE_ID "Subscription Management" "$subscription_cont
 
 echo "User documentation structure created. Expand on these files and create additional documentation as needed."
 ```
+
 ## 11.3 Build Ticketing App (Non-MVP)
 
 ### Overview
 Develop a ticketing system using Gmail labels, integrated with Slack functions, workflows, and triggers. This system will use dion@lookerhelp.com as an alias for dion@wrench.chat on the Slack workspace lookernomicon.slack.com.
 
 ### Requirements
+
 1. Gmail Integration:
    - Set up labels in Gmail for ticket status (New, In Progress, Resolved)
    - Create labels for priority levels (High, Medium, Low)
    - Implement labels for issue categories (Technical, Billing, Feature Request)
+
 2. Slack Integration:
    - Use Slack's Gmail integration for notifications
    - Set up Slack workflow to create emails from Slack messages
    - [Slack API](https://api.slack.com/#)
+
 3. Automation:
    - Implement Google Apps Script to:
      - Assign ticket numbers to new emails
      - Set up time-based triggers for ticket escalation
      - Generate reports of ticket status and resolution times
+
 4. Workflow:
    - Incoming email or Slack message creates a new ticket
    - Automatic labeling based on content analysis
    - Slack notification sent to support channel
    - Team members claim tickets with "Assigned to [Name]" label
    - Update labels as ticket progresses
+
 5. Response Management:
    - Use Gmail's canned responses for common issues
    - Implement personalized response suggestions
+
 6. Reporting:
    - Generate Daily Slack Report
    - Generate Priority Alerts
@@ -1654,12 +1757,19 @@ Develop a ticketing system using Gmail labels, integrated with Slack functions, 
 ### Implementation Steps
 
 1. Set up Gmail account and configure labels
+
 2. Integrate Gmail with Slack workspace
+
 3. Develop Google Apps Script for automation
+
 4. Create Slack workflows for ticket creation and updates
+
 5. Implement content analysis for automatic labeling (optional: use AI for enhanced analysis)
+
 6. Set up reporting system using Google Sheets
+
 7. Test the system thoroughly with sample tickets
+
 8. Train team on using the new ticketing system
 
 ### Considerations
@@ -1672,20 +1782,28 @@ Develop a ticketing system using Gmail labels, integrated with Slack functions, 
 Note: This ticketing system is considered a non-MVP feature and should be implemented after core functionalities are in place.
 
 ### This script sets up the basic structure for user documentation in GitBook. After running this script:
+
 **1. A "Getting Started" page will be created with basic information about using LookerHelp.**
+
 **2. A "Using Lookernomicon AI Agent" page will be created with instructions on how to use the AI assistant.**
+
 **3. A "Subscription Management" page will be created with information on managing subscriptions.**
 
 ### Next steps:
+
 **1. Review the created content in the GitBook web interface.**
+
 **2. Expand on the content for each page, adding more detailed information and examples.**
+
 **3. Create additional documentation pages as needed (e.g., FAQs, troubleshooting guides, advanced features).**
+
 **4. Add images, diagrams, or videos to enhance the documentation.**
+
 **5. Set up a process for regularly reviewing and updating the documentation.**
+
 **6. Consider creating a feedback mechanism for users to suggest improvements or report issues with the documentation.**
+
 **7. Implement a versioning strategy for your documentation to keep it in sync with your product updates.**
-**8. Test the GitBook API calls to ensure they are working correctly.**
-**9. Consider a rollback plan if the API calls fail.**
 
 ## 12. Testing Checklist
 
@@ -1765,30 +1883,33 @@ cat << EOF > testing_checklist.md
 - [ ] Check formatting consistency across all pages
 - [ ] Ensure all images and media are loading properly
 
-## Ticketing System
-- [ ] Test ticket creation from email
-- [ ] Verify automatic labeling of tickets
-- [ ] Test Slack notifications for new tickets
-- [ ] Ensure team members can claim tickets
-- [ ] Test ticket status updates
-- [ ] Verify reporting system is working correctly
-
 EOF
 
 echo "Testing checklist created. Use this for manual testing before launch and for regular maintenance checks."
 ```
+
 ### This script creates a comprehensive testing checklist for LookerHelp. After running this script:
+
 **1. A markdown file named 'testing_checklist.md' will be created in your current directory.**
+
 **2. The checklist covers various aspects of the LookerHelp platform, including authentication, integrations, performance, and security.**
 
 ### Next steps:
+
 **1. Review the checklist and customize it based on your specific implementation details.**
+
 **2. Assign team members to different sections of the checklist.**
+
 **3. Set up a regular testing schedule to go through this checklist.**
+
 **4. Consider automating some of these tests where possible.**
+
 **5. Use the results of these tests to prioritize bug fixes and improvements.**
+
 **6. Update the checklist as new features are added to the platform.**
+
 **7. Implement a system to track the results of each test run.**
+
 **8. Consider creating separate, more detailed checklists for critical components.**
 
 ## 13. Launch Preparation
@@ -1915,26 +2036,39 @@ EOF
 
 echo "Launch timeline created. Adjust dates as necessary for your specific launch plan."
 ```
+
 ### This script creates two important documents for your launch preparation:
+
 **1. A comprehensive launch checklist (launch_checklist.md) covering pre-launch, launch day, and post-launch tasks.**
+
 **2. A basic launch timeline (launch_timeline.md) outlining key milestones from final preparations to post-launch review.**
 
 ### Next steps:
+
 **1. Review both the launch checklist and timeline, adjusting them to fit your specific needs and schedule.**
+
 **2. Assign team members to different sections of the launch checklist.**
+
 **3. Set up regular meetings to go through the checklist and update the timeline as you progress.**
+
 **4. Create a communication plan for keeping all stakeholders informed during the launch process.**
+
 **5. Prepare contingency plans for potential issues that might arise during launch.**
+
 **6. Consider creating a separate, more detailed technical checklist for your development team.**
+
 **7. Set up a system for tracking and prioritizing user feedback received during and after launch.**
+
 **8. Plan for a post-launch retrospective to gather lessons learned and improve future processes.**
 
 ## 14. Partnership with Looker Consultancy
 
 ### Objective
+
 Establish a partnership with a consultancy that has an active Looker instance to enhance LookerHelp's capabilities and offer more comprehensive services to users.
 
 ### Requirements
+
 1. Identify potential consultancy partners with:
    - Active Looker instance
    - Willingness to collaborate on LookerHelp project
@@ -1967,17 +2101,143 @@ Establish a partnership with a consultancy that has an active Looker instance to
    - Address any licensing concerns
 
 ### Success Criteria
+
 - Successful integration with partner's Looker instance
 - Enhanced LookML testing and validation capabilities for LookerHelp users
 - Increased value proposition for LookerHelp subscribers
 - Positive feedback from users on new features enabled by the partnership
 
 ### Timeline
+
 - To be initiated after core LookerHelp features are stable and user base is established
 - Aim to have partnership in place within 6-12 months of LookerHelp launch
 
 ### Considerations
+
 - Ensure the partnership doesn't create conflicts of interest or compromise LookerHelp's independence
 - Regularly review and adjust the partnership to maintain mutual benefit
 - Be prepared to explore multiple potential partners if necessary
 
+# LookerHelp Development Tools and Environment
+
+LookerHelp leverages a suite of AI-assisted development tools integrated with Visual Studio Code (VSCode) to streamline the development process. The primary tools used are Aider, Cline, NotebookLM, and VSCode itself, each offering unique capabilities.
+
+## Key Tools and Their AI Engines
+
+### 1. Aider (Gemini-powered)
+Aider is a Git-aware AI coding assistant that excels in:
+- Real-time pair programming
+- Focused, conversation-style coding
+- Quick iterations and bug fixes
+- Git-focused work with automatic commits
+
+### 2. Cline (Anthropic-powered)
+Cline is a VSCode-integrated AI coding assistant ideal for:
+- Large-scale changes across multiple files
+- Creating new features from scratch
+- Visual development tasks requiring browser testing
+- System integration with external APIs
+
+### 3. NotebookLM (Gemini-powered)
+NotebookLM assists in:
+- Organizing and curating documentation
+- Managing scripts and tutorials
+- Coordinating testing efforts
+
+### 4. Visual Studio Code
+VSCode serves as the central integrated development environment (IDE) for the project:
+- Provides a unified interface for all development tasks
+- Hosts extensions for Aider and Cline integration
+- Offers built-in Git integration for version control
+- Supports multiple programming languages and file types
+- Enables customization through settings and extensions
+
+## Development Environment Setup
+
+1. Install the latest Python version
+2. Install Visual Studio Code
+3. Install Aider:
+
+```
+python3 -m pip install aider-install --break-system-packages aider-install
+```
+4. Install VSCode Extensions:
+- Aider for VS Code
+- Claude Dev
+
+5. Configure .env file with necessary API keys and settings:
+```
+GEMINI_API_KEY=your_gemini_api_key_here 
+ANTHROPIC_API_KEY=your_anthropic_api_key_here 
+AIDER_MODEL=gemini/gemini-2.0-flash-exp
+```
+
+## Workflow Integration
+
+- Use VSCode as the primary development environment
+- Use Cline for initial setup, major features, and project-wide changes
+- Switch to Aider for quick iterations, git management, and focused coding sessions
+- Leverage NotebookLM for documentation and script management
+
+## Best Practices
+
+1. Clear Task Division:
+- Use Cline for complex, multi-file changes
+- Use Aider for focused, git-tracked changes
+- Use NotebookLM for documentation and testing coordination
+- Use VSCode's built-in features for code editing, debugging, and version control
+
+2. Git Management:
+- Let Aider handle git commits for small changes
+- Use Cline for major feature implementations
+- Utilize VSCode's Git integration for repository management
+
+3. Testing and Verification:
+- Use Cline's browser automation for visual testing
+- Use Aider for unit test creation and updates
+- Coordinate testing efforts with NotebookLM
+- Leverage VSCode's integrated terminal for running tests
+
+## Major Components & Tasks
+
+1. Website Development (Lead: Aider)
+- Build central hub using GitBook
+- Implement SEO optimizations
+- Develop user authentication and subscription management
+
+2. Documentation Hub (Lead: NotebookLM)
+- Organize Looker documentation on GitBook
+- Curate repository of Looker scripts
+- Implement search feature
+
+3. AI-Powered Assistant (Lead: Cline)
+- Develop AI assistant using Vertex AI
+- Integrate with Slack for user interactions
+- Implement NLP capabilities
+
+4. User Management System (Lead: Cline & Aider)
+- Implement Google Auth
+- Use BigQuery for user data management
+- Integrate Stripe for subscriptions
+
+5. Backend Infrastructure (Lead: Cline)
+- Configure Google Cloud Platform services
+- Ensure secure connections between services
+
+6. SEO and Analytics (Lead: Aider)
+- Implement Google Analytics
+- Optimize website content for SEO
+
+7. Visual Studio Code Integration
+- Set up consistent VSCode workspace settings
+- Configure extensions for optimal workflow
+- Create custom snippets and keyboard shortcuts for common tasks
+- Utilize VSCode's remote development features for collaborative coding
+
+By effectively combining these tools and following the project timeline within the VSCode environment, the LookerHelp development process becomes efficient and comprehensive.
+
+## Additional Resources
+
+- [LookerHelp Development Environment Setup Guide](path/to/LookerHelp_Dev_Env_Setup.md)
+- [Using Cline and Aider Together Guide](path/to/cline_aider_guide.md)
+- [Major Components & Tasks for lookerhelp.com](path/to/Major_Components_Tasks_lookerhelp.md)
