@@ -71,70 +71,15 @@ LookerHelp.com is a comprehensive platform for Looker professionals, offering AI
 - Version Control: GitHub
 - Communication: Slack
 
-## Getting Started
-
-To set up the development environment and run the project locally, follow these steps:
-
-1. Clone the repository:
-```
-git clone https://github.com/wrenchchatrepo/lookerhelp.git cd lookerhelp
-```
-
-2. Set up a Python virtual environment:
-```
-python3 -m venv venv source venv/bin/activate
-```
-
-3. Install required dependencies:
-```
-pip install -r requirements.txt
-```
-
-4. Set up environment variables:
-- Copy the `.env.example` file to `.env`
-- Fill in the required API keys and secrets in the `.env` file
-
-5. Set up Google Cloud SDK:
-- Install the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
-- Authenticate with your Google Cloud account:
-  ```
-  gcloud auth login
-  gcloud config set project miguelai
-  ```
-
-6. Set up BigQuery:
-- Ensure you have the necessary permissions to access BigQuery
-- Verify BigQuery access:
-  ```
-  bq show miguelai:lookerhelp_users
-  ```
-
-7. Set up GitBook access:
-- Ensure you have access to the GitBook spaces for LookerHelp
-- Verify GitBook API access:
-  ```
-  curl -H "Authorization: Bearer $GITBOOK_API_TOKEN" https://api.gitbook.com/v1/user
-  ```
-
-8. Run local development server (if applicable):
-```
-python manage.py runserver
-````
-
-For more detailed instructions on setting up specific components or contributing to the project, please refer to our [Contribution Guidelines](CONTRIBUTING.md).
-
 ## Contributing
 
-We welcome contributions to LookerHelp! If you're interested in contributing, please contact dion@wrench.chat for more information on how to get involved.
+We welcome contributions to LookerHelp! If you're interested in contributing, please contact **dion@wrench.chat** for more information on how to get involved.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License. See the **LICENSE** file for details.
 
 ## Contact
 
-For any questions or concerns regarding the project, please contact:
-
-Dion Edge
-Email: dion@wrench.chat
+For any questions or concerns regarding the project, please contact **dion@wrench.chat**.
 
