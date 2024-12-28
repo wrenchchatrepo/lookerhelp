@@ -40,6 +40,9 @@ DOCS_SPACE_ID = "OrDhJ8S0ks7gp1RRFX1D"
 SCRIPTS_SPACE_ID = "H6zDeCfcy4ilPETyHJGZ"
 MAIN_SPACE_ID = "bYUIzYd1ysoGdIVzXYQm"
 
+# GitBook API Token
+GITBOOK_API_TOKEN = "YOUR_GITBOOK_API_TOKEN"
+
 # LinkedIn
 LINKEDIN_PERSONAL = "https://www.linkedin.com/in/dionedge"
 LINKEDIN_COMPANY = "https://www.linkedin.com/company/lookernomicon/"
