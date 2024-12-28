@@ -1,0 +1,35 @@
+lookerhelp.com
+	CNAME docs 3581f1363d-hosting.gitbook.io.
+		docs.lookerhelp.com 
+		DOCS_SPACE_ID=OrDhJ8S0ks7gp1RRFX1D 
+		URL: https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/OrDhJ8S0ks7gp1RRFX1D/
+	CNAME scripts 2f1176a1b4-hosting.gitbook.io.
+		scripts.lookerhelp.com 
+		SCRIPTS_SPACE_ID=H6zDeCfcy4ilPETyHJGZ 
+		URL: https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/H6zDeCfcy4ilPETyHJGZ/
+	CNMAE main 2f1176a1b4-hosting.gitbook.io.
+		main.lookerhelp.com 
+		MAIN_SPACE_ID=bYUIzYd1ysoGdIVzXYQm 
+		URL: https://app.gitbook.com/o/6Hp6I4Igt2Pa9ZdnvzOG/s/bYUIzYd1ysoGdIVzXYQm/
+SLACK:
+	App ID: A0860L8F87R
+	Date of App Creation: December 24, 2024
+	Webhook URL: https://hooks.slack.com/services/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
+	App Manifest:
+		display_information:
+		  name: Lookernomicon
+		  description: AI-Grimoire for Looker Nerds
+		  background_color: "#19171a"
+		  long_description: Lookernomicon is an AI-powered comprehensive resource for Looker professionals, combining cutting-edge technology with expert knowledge. It offers in-depth LookML guides, advanced data modeling techniques, and BI strategy insights. Featuring a rich repository of scripts, tutorials, and best practices, Lookernomicon caters to both novice and experienced Looker users. With its integrated platform spanning documentation, community forums, and personalized learning paths, it accelerates mastery of Looker's capabilities. Lookernomicon is the go-to solution for elevating Looker implementations and driving data-driven decision-making across organizations.
+		features:
+		  bot_user:
+		    display_name: Lookernomicon
+		    always_online: true
+		oauth_config:
+		  scopes:
+		    bot:
+		      - incoming-webhook
+		settings:
+		  org_deploy_enabled: false
+		  socket_mode_enabled: false
+		  token_rotation_enabled: false
