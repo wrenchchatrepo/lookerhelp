@@ -3,16 +3,19 @@
 __pycache__/
 *.so
 .Python
-aider_env
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Directories and Files
+config.py
+aider_env/
 dev/
 images/
 main/
 requirements/
 tests/
 working/
-*.egg-info/
-.installed.cfg
-*.egg
 MANIFEST
 
 # Environments
