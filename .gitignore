@@ -1,76 +1,56 @@
-# Python
-*.py[cod]
-__pycache__/
-*.so
-.Python
-*.egg-info/
-.installed.cfg
-*.egg
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
 
-# Directories and Files
-config.py
-aider_env/
-dev/
-images/
-main/
-requirements/
-tests/
-working/
-MANIFEST
-
-# Environments
+# Environment files
 .env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# PyCharm
+# Build outputs
+/client/build/
+/functions/lib/
+/functions/build/
+
+# Firebase
+.firebase/
+firebase-debug.log
+ui-debug.log
+
+# IDE and Editor files
 .idea/
-
-# VS Code
 .vscode/
-
-# Mac OS
+*.swp
+*.swo
 .DS_Store
-.AppleDouble
-.LSOverride
 
-# Icon must end with two \r
-Icon
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# Thumbnails
-._*
+# Testing
+/coverage
+/client/coverage
 
-# Files that might appear in the root of a volume
-.DocumentRevisions-V100
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-.VolumeIcon.icns
-.com.apple.timemachine.donotpresent
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
 
-# Directories potentially created on remote AFP share
-.AppleDB
-.AppleDesktop
-Network Trash Folder
-Temporary Items
-.apdisk
-
-# Project specific
+# GCP
 *.log
-*.sqlite3
-*.db
+service-account.json
+*-service-account.json
+gcp-key.json
 
-# Sensitive information
-*.pem
-*.key
-*.cert
-*.json
-
-# Add any other project-specific files or directories you want to ignore
-.aider*
-.env.yaml
+# Misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

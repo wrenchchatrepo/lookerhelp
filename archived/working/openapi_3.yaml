@@ -1,0 +1,100 @@
+openapi: 3.0.0
+info:
+  title: Gemini API
+  version: 1.0.0
+  description: >
+    This OpenAPI specification is used to interact with the Gemini API. It enables querying AI models for tasks such as natural language processing, code generation, and data insights.
+servers:
+  - url: 'https://generativelanguage.googleapis.com/v1beta'
+paths:
+  /models/{model}:generateContent:
+    post:
+      summary: Perform an AI task using a specified Gemini model
+      operationId: generateContent
+      parameters:
+        - in: path
+          name: model
+          required: true
+          description: The name of the Gemini model to use (e.g., 'gemini-pro', 'gemini-pro-vision')
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateContentRequest'
+      responses:
+        '200':
+          description: AI task completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenerateContentResponse'
+        '400':
+          description: Bad request, invalid parameters provided
+        '429':
+          description: Rate limit exceeded for the API
+components:
+  schemas:
+    GenerateContentRequest:
+      type: object
+      properties:
+        contents:
+          type: array
+          description: An array of content parts for the model to process.
+          items:
+            type: object
+            properties:
+              parts:
+                type: array
+                description: An array of content parts within a content item.
+                items:
+                  type: object
+                  properties:
+                    text:
+                      type: string
+                      description: The input text for the Gemini model.
+                    image:
+                      type: string
+                      format: base64
+                      description: The base64 encoded image data (for multi-modal models)
+                      nullable: true # Allow for text-only or multi-modal content
+                    video:
+                      type: string
+                      format: base64
+                      description: The base64 encoded video data (for multi-modal models)
+                      nullable: true # Allow for text-only or multi-modal content
+      required:
+        - contents
+    GenerateContentResponse:
+      type: object
+      properties:
+        candidates:
+          type: array
+          description: An array of possible responses from the model.
+          items:
+            type: object
+            properties:
+              content:
+                type: object
+                properties:
+                  parts:
+                    type: array
+                    description: The parts of the generated content.
+                    items:
+                      type: object
+                      properties:
+                        text:
+                          type: string
+                          description: The generated text.
+        usageMetadata:
+          type: object
+          description: Metadata about the API usage
+          properties:
+            promptTokenCount:
+               type: integer
+               description:  The number of tokens in the prompt.
+            totalTokenCount:
+               type: integer
+               description: The total number of tokens.

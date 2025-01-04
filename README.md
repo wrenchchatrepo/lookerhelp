@@ -1,85 +1,211 @@
-# LookerHelp.com
+# LookerHelp MVP
 
-## End State
+A single-page application for LookerHelp with Google OAuth authentication and Stripe payment integration.
 
-LookerHelp.com is a comprehensive platform for Looker professionals, offering AI-powered assistance, documentation, scripts, and a community hub. The platform integrates cutting-edge technologies to provide a seamless experience for users ranging from beginners to advanced Looker experts.
+## Architecture
 
-## Major Components
+- Frontend: Create React App (CRA)
+- Authentication: Server-side Google OAuth flow
+- Data Storage: BigQuery
+- Hosting: Firebase Hosting
+- Backend: Cloud Functions
+- Payments: Stripe Payment Links
 
-1. **Website `lookerhelp.com`**
-   - Central hub built with GitHub
-   - SEO-optimized content on MkDocs
-   - User authentication and subscription management
+## Quick Start
 
-2. **Documentation  `docs.lookerhelp.com`**
-   - Comprehensive Looker documentation
-   - Tutorials and guides
-   - Hosted on GitHub/MkDocs
+1. Install Dependencies:
+```bash
+# Install frontend dependencies
+cd client
+npm install
 
-3. **Scripts `scripts.lookerhelp.com`**
-   - Repository of useful Looker scripts
-   - Readme files and usage instructions
-   - Hosted on GitHub/MkDocs
+# Install Cloud Functions dependencies
+cd ../functions
+npm install
+```
 
-4. **`Lookernomicon` AI Agent**
-   - Vertex AI-powered assistant
-   - Integrated with Slack for user interactions
-   - Utilizes Cloud Storage for data stores
+2. Environment Setup:
+```bash
+# Frontend (.env)
+REACT_APP_GOOGLE_CLIENT_ID=your_client_id
+REACT_APP_API_URL=your_cloud_function_url
+REACT_APP_STRIPE_PAYMENT_LINK_WEEKLY_LIVE=https://buy.stripe.com/fZe4hL6Vz8a0bSMbIL
+REACT_APP_STRIPE_PAYMENT_LINK_MONTHLY_LIVE=https://buy.stripe.com/14kbKdcfTai85uo7su
+REACT_APP_STRIPE_PAYMENT_LINK_WEEKLY_OFFICE=https://buy.stripe.com/7sIg0tbbP1LC8GA3cd
+REACT_APP_STRIPE_PAYMENT_LINK_APP=https://buy.stripe.com/3cs7tX4Nrcqg2ic9AE
 
-5. **User Management System**
-   - Google Auth for authentication
-   - BigQuery for user data storage
-   - Stripe integration for subscription handling
+# Cloud Functions (.env)
+GOOGLE_OAUTH_CLIENT_ID=your_client_id
+GOOGLE_OAUTH_CLIENT_SECRET=your_client_secret
+JWT_SECRET=your_jwt_secret
+FRONTEND_URL=http://localhost:3000
+```
 
-6. **Slack Integration**
-   - Primary interface for `Lookernomicon` AI Agent
-   - Community engagement and support channels
+3. Development:
+```bash
+# Start frontend
+cd client
+npm start
 
-7. **GitHub Repository**
-   - Version control for content and code
-   - Collaboration and contribution management
+# Start Cloud Functions locally
+cd functions
+npm run serve
+```
 
-8. **Google Cloud Platform Backend**
-   - BigQuery for user data and analytics
-   - Cloud Storage for AI agent data stores
-   - Cloud Functions for serverless operations
+4. Deployment:
+```bash
+# Deploy frontend
+cd client
+npm run build
+firebase deploy --only hosting
 
-9. **Stripe Payment Integration**
-    - Subscription management
-    - Secure payment processing
+# Deploy functions
+cd ../functions
+firebase deploy --only functions
+```
 
-## Key Features
+## Project Structure
 
-- AI-powered Looker assistance through Slack
-- Tiered access: Visitor, Subscriber, and Looker (paid)
-- Comprehensive Looker documentation and tutorials
-- Curated collection of Looker scripts
-- Community-driven content and support
-- Seamless integration of MkDocs, GitHub, and GCP services
+```
+lookerhelp/
+├── client/                    # Frontend (CRA)
+│   ├── src/
+│   │   ├── components/       # React components
+│   │   ├── styles/          # CSS files
+│   │   └── App.js           # Main app component
+│   └── public/              # Static files
+├── functions/                # Cloud Functions
+│   ├── auth/                # Auth functions
+│   └── bigquery_setup.sql   # BigQuery schema
+```
 
-## Technology Stack
+## Features
 
-- Frontend: MkDocs
-- Backend: Google Cloud Platform (BigQuery, Cloud Storage, Cloud Functions)
-- AI: Vertex AI, Gemini 2.0
-- Authentication: Google Auth
-- Payments: Stripe
-- Version Control: GitHub
-- Communication: Slack
+1. Authentication
+   - Server-side Google OAuth flow
+   - JWT session management
+   - User data stored in BigQuery
 
-For more detailed instructions on setting up specific components or contributing to the project, please refer to our [Contribution Guidelines](CONTRIBUTING.md).
+2. Subscription Management
+   - Direct Stripe payment links
+   - Subscription status tracking
+   - BigQuery integration
 
-## Contributing
+3. Security
+   - CORS configuration
+   - Security headers
+   - IAM roles and permissions
 
-We welcome contributions to LookerHelp! If you're interested in contributing, please contact `dion@wrench.chat` for more information on how to get involved.
+## Development Guide
 
-## License
+1. Frontend Development
+   - Components in `client/src/components`
+   - Styles in `client/src/styles`
+   - Environment variables in `client/.env`
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+2. Cloud Functions
+   - Auth handlers in `functions/auth`
+   - Environment variables in `functions/.env`
+   - BigQuery setup in `functions/bigquery_setup.sql`
 
-## Contact
+## Monitoring & Maintenance
 
-For any questions or concerns regarding the project, please contact:
+1. Cloud Functions Dashboard
+   - Monitor function execution
+   - View logs and errors
+   - Track performance
 
-Dion Edge
-Email: `dion@wrench.chat`
+2. BigQuery Console
+   - Query user data
+   - Monitor subscription status
+   - Run analytics
+
+3. Firebase Hosting
+   - View deployment status
+   - Monitor CDN performance
+   - SSL certificate management
+
+## Troubleshooting
+
+1. OAuth Issues
+   - Verify credentials in Google Cloud Console
+   - Check authorized domains
+   - Validate redirect URIs
+
+2. BigQuery Errors
+   - Verify table schemas
+   - Check IAM permissions
+   - Validate query syntax
+
+3. Deployment Issues
+   - Check Firebase configuration
+   - Verify environment variables
+   - Review build logs
+
+## Security Considerations
+
+1. Authentication
+   - Server-side OAuth flow
+   - Secure JWT implementation
+   - HTTP-only cookies
+
+2. Data Storage
+   - BigQuery IAM roles
+   - Encrypted data at rest
+   - Access logging
+
+3. API Security
+   - CORS configuration
+   - Rate limiting
+   - Security headers
+
+## Deployment Checklist
+
+1. Prerequisites
+   - [ ] Google Cloud project setup
+   - [ ] Firebase project created
+   - [ ] Google OAuth credentials configured
+   - [ ] BigQuery dataset created
+   - [ ] Stripe payment links ready
+
+2. Environment Configuration
+   - [ ] Frontend .env file configured
+   - [ ] Cloud Functions .env file configured
+   - [ ] Firebase project settings updated
+   - [ ] Google OAuth redirect URIs set
+
+3. BigQuery Setup
+   - [ ] Users table created
+   - [ ] Subscriptions table created
+   - [ ] Test data verified
+   - [ ] IAM permissions configured
+
+4. Frontend Deployment
+   - [ ] Dependencies installed
+   - [ ] Build successful
+   - [ ] Firebase hosting configured
+   - [ ] SSL certificate active
+
+5. Backend Deployment
+   - [ ] Dependencies installed
+   - [ ] Cloud Functions deployed
+   - [ ] Environment variables set
+   - [ ] CORS configured
+
+6. Testing
+   - [ ] OAuth flow working
+   - [ ] Subscription links accessible
+   - [ ] BigQuery logging verified
+   - [ ] Error handling tested
+
+7. Monitoring
+   - [ ] Cloud Logging enabled
+   - [ ] Error reporting configured
+   - [ ] Performance monitoring active
+   - [ ] Billing alerts set
+
+8. Documentation
+   - [ ] API endpoints documented
+   - [ ] Environment setup guide complete
+   - [ ] Deployment process documented
+   - [ ] Troubleshooting guide available

@@ -1,0 +1,128 @@
+:root {
+  /* Theme colors */
+  --primary: #2D2926;
+  --secondary: #B026FF;
+  --accent: #FF13F0;
+  --background: #F0E8F3;
+  --text: #333333;
+  --heading: #19171A;
+  --link: #00FEFC;
+  --success: #39FF14;
+  --warning: #CFFF04;
+  --error: #FF3131;
+  --neutral-light: #E0E0E0;
+  --neutral-medium: #9E9E9E;
+  --neutral-dark: #616161;
+
+  /* Spacing */
+  --spacing-xs: 0.125rem;
+  --spacing-sm: 0.25rem;
+  --spacing-md: 0.5rem;
+  --spacing-lg: 1rem;
+  --spacing-xl: 1.5rem;
+  --spacing-xxl: 2rem;
+
+  /* Font settings */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --line-height-base: 1.6;
+  --line-height-heading: 1.3;
+}
+
+/* Apply theme by default */
+body {
+  background-color: var(--background);
+  color: var(--text);
+  font-family: var(--font-family);
+  line-height: var(--line-height-base);
+  margin: 0;
+  padding: 0;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  line-height: var(--line-height-heading);
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Links */
+a {
+  color: var(--link);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+/* Buttons */
+button, .button {
+  background-color: var(--secondary);
+  color: white;
+  border: none;
+  padding: var(--spacing-sm) var(--spacing-lg);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:hover, .button:hover {
+  background-color: var(--accent);
+}
+
+/* Lists */
+ul, ol {
+  padding-left: var(--spacing-md);
+  margin: 0;
+}
+
+li {
+  margin: 0;
+  padding: 0;
+}
+
+/* Navigation */
+.navigation-bar {
+  background-color: var(--primary);
+  border-bottom: 1px solid var(--neutral-light);
+  padding: var(--spacing-sm);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  color: white;
+}
+
+.navigation-bar a {
+  color: white;
+}
+
+.navigation-bar a:hover {
+  color: var(--link);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading);
+  font-weight: 600;
+}
+
+/* Success, Warning, Error states */
+.success {
+  color: var(--success);
+}
+
+.warning {
+  color: var(--warning);
+}
+
+.error {
+  color: var(--error);
+}

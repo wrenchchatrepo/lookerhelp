@@ -1,0 +1,229 @@
+@import url('https://fonts.googleapis.com/css2?family=Architect\'s+Daughter&display=swap');
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  background-color: #19171A;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Architect\'s Daughter', cursive;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.header-logo {
+  height: 40px;
+  width: auto;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #E0E0E0;
+  font-size: 17px;
+  padding: 0.5rem 1rem;
+  background-color: #333333;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.nav-link:hover {
+  background-color: #444444;
+}
+
+.calendar-button {
+  display: inline-block;
+}
+
+.calendar-button button {
+  background-color: #333333 !important;
+  color: #39FF14 !important;
+  font-family: 'Architect\'s Daughter', cursive !important;
+  font-size: 17px !important;
+  border: none !important;
+  padding: 0.5rem 1rem !important;
+  border-radius: 4px !important;
+  cursor: pointer !important;
+  transition: background-color 0.2s !important;
+}
+
+.calendar-button button:hover {
+  background-color: #444444 !important;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.user-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #333333;
+  padding: 1rem;
+  border-radius: 4px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  display: none;
+}
+
+.user-menu:hover .user-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #E0E0E0;
+}
+
+.logout-button {
+  background: none;
+  border: none;
+  color: #E0E0E0;
+  cursor: pointer;
+  padding: 0.5rem;
+  text-align: left;
+  font-size: 17px;
+  font-family: 'Architect\'s Daughter', cursive;
+}
+
+.logout-button:hover {
+  color: #E0E0E0;
+  background: #444444;
+  border-radius: 4px;
+}
+
+.login-button {
+  font-family: 'Architect\'s Daughter', cursive;
+  font-size: 17px;
+  color: #E0E0E0;
+  background-color: #333333;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.login-button:hover {
+  background-color: #444444;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  background-color: #E0E0E0;
+}
+
+.footer {
+  background-color: #19171A;
+  padding: 3rem 2rem 1rem;
+  margin-top: auto;
+  color: #E0E0E0;
+  font-family: 'Architect\'s Daughter', cursive;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.footer-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.footer-section h3 {
+  color: #B026FF;
+  font-size: 17px;
+  margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+  text-decoration: none;
+  color: #E0E0E0;
+  transition: color 0.2s;
+  font-size: 13px;
+}
+
+.footer-section a:hover {
+  color: #B026FF;
+}
+
+.footer-section p {
+  font-size: 13px;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #333333;
+  color: #E0E0E0;
+  font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 1rem;
+    gap: 1rem;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+  }
+}
