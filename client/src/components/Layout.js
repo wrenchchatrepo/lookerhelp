@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import Header from './Header';
 
 const Main = styled.main`
-  margin-top: 80px; /* Height of the fixed header */
+  margin-top: 72px; /* Reduced from header height */
   background-color: var(--background);
 `;
 
 const Footer = styled.footer`
   background-color: var(--header-bg);
   color: var(--header-text);
-  padding: 2rem 0;
-  margin-top: 4rem;
+  padding: 1.8rem 0;
+  margin-top: 3.6rem;
 `;
 
 const FooterContent = styled.div`
@@ -20,13 +20,13 @@ const FooterContent = styled.div`
   padding: 0 2rem;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
+  gap: 1.8rem;
 `;
 
 const FooterSection = styled.div`
   h3 {
     color: var(--accent-pink);
-    margin-bottom: 1rem;
+    margin-bottom: 0.9rem;
     font-size: 17px;
   }
 
@@ -34,7 +34,7 @@ const FooterSection = styled.div`
     color: var(--header-text);
     text-decoration: none;
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.45rem;
     cursor: pointer;
     
     &:hover {
@@ -45,8 +45,8 @@ const FooterSection = styled.div`
 
 const FooterBottom = styled.div`
   text-align: center;
-  margin-top: 2rem;
-  padding-top: 1rem;
+  margin-top: 1.8rem;
+  padding-top: 0.9rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 `;
 

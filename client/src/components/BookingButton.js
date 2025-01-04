@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const BookingContainer = styled.div`
-  margin: 2rem 0;
+  margin: 1rem 0;
   text-align: center;
 `;
 
 const CTAText = styled.p`
-  margin-bottom: 1rem;
-  font-size: 13px;
-  color: var(--primary-text);
+  margin-bottom: 0.5rem;
+  font-size: 12px;
+  color: var(--accent-purple);
 `;
 
 const BookingButton = () => {

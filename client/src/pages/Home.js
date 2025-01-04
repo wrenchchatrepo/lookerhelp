@@ -92,7 +92,7 @@ const pricingData = [
       'Lookernomicon is our AI-powered assistant that can answer Looker-related questions in real-time via Slack for subscribers.',
       'Pause or Cancel Anytime.'
     ],
-    stripeLink: 'https://buy.stripe.com/7sIg0tbbP1LC8GA3cd',
+    stripeLink: 'https://buy.stripe.com/3cs7tX4Nrcqg2ic9AE',
     variant: 'lookernomicon'
   },
   {
@@ -106,7 +106,7 @@ const pricingData = [
       'Comes with five Lookernomicon seats',
       'Pause or Cancel Anytime.'
     ],
-    stripeLink: 'https://buy.stripe.com/dR6g0t3Jn4XO4qk5km',
+    stripeLink: 'https://buy.stripe.com/7sIg0tbbP1LC8GA3cd',
     variant: 'weekly-hours'
   },
   {
@@ -144,8 +144,8 @@ const Home = () => {
   return (
     <>
       <Hero>
-        <h1>Welcome to LookerHelp</h1>
-        <p>LookerHelp is your comprehensive resource for mastering Looker and enhancing your data analytics capabilities. Our platform offers expert guidance, innovative scripts, and an AI-powered assistant to streamline your Looker experience.</p>
+        <h1>Welcome to LookerHealth</h1>
+        <p>Master Looker with LookerHelp. Get expert support, powerful scripts, and an AI assistant to streamline your data workflows. Imagine instant Slack support and weekly office hours to tackle your toughest Looker challenges. Ready to see what LookerHelp can do for your team? Book a quick Google Meet with Dion.</p>
         <BookingButton />
       </Hero>
 
@@ -163,8 +163,6 @@ const Home = () => {
       </Section>
 
       <Section id="guide" title="Guide">
-        <p>Welcome to the LookerHelp User Guide. This resource will help you navigate our platform and make the most of our services.</p>
-        
         <Accordion title="Getting Started">
           <GuideList>
             <li>Visit lookerhelp.com</li>

@@ -6,8 +6,8 @@ import PricingCard from '../components/PricingCard';
 const PricingGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  padding: 2rem 0;
+  gap: 1.8rem;
+  padding: 1.8rem 0;
 `;
 
 const pricingData = [
@@ -23,7 +23,7 @@ const pricingData = [
       'Lookernomicon is our AI-powered assistant that can answer Looker-related questions in real-time via Slack for subscribers.',
       'Pause or Cancel Anytime.'
     ],
-    stripeLink: 'https://buy.stripe.com/7sIg0tbbP1LC8GA3cd',
+    stripeLink: 'https://buy.stripe.com/3cs7tX4Nrcqg2ic9AE',
     variant: 'lookernomicon'
   },
   {
@@ -37,7 +37,7 @@ const pricingData = [
       'Comes with five Lookernomicon seats',
       'Pause or Cancel Anytime.'
     ],
-    stripeLink: 'https://buy.stripe.com/dR6g0t3Jn4XO4qk5km',
+    stripeLink: 'https://buy.stripe.com/7sIg0tbbP1LC8GA3cd',
     variant: 'weekly-hours'
   },
   {

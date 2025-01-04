@@ -84,38 +84,42 @@ Help
 ## Pricing Section
 "Lookernomicon
 + $29 per month recurring
-+ Vertex AI agent
-+ AI powered by Gemini 2.0
-+ Integrated with Slack for user interactions
-+ Support for the App is built into Slack
-+ Lookernomicon is our AI-powered assistant that can answer Looker-related questions in real-time via Slack for subscribers.
-+ Pause or Cancel Anytime.
++ AI-powered assistant for Looker
++ Real-time answers via Slack
++ Powered by advanced AI models
++ Built-in Slack support
++ Instant access to Looker expertise
++ Pause or Cancel Anytime
 https://buy.stripe.com/7sIg0tbbP1LC8GA3cd
 
 Weekly Office Hours
 + $499 per month recurring
-+ 90 min, once a week on Google Meet on any Looker or BI topic you want to discuss. If I know the agenda 48 hrs prior I will come prepared. If there is no agenda given I will come prepared with a topic and materials I think are germane to your team.
-+ Comes with five Lookernomicon seats 
-+ Pause or Cancel Anytime.
++ 90-minute weekly Google Meet sessions
++ Flexible agenda - your topics or ours
++ 48-hour prep time for custom topics
++ Includes five Lookernomicon seats
++ Personalized BI strategy guidance
++ Pause or Cancel Anytime
 https://buy.stripe.com/dR6g0t3Jn4XO4qk5km
 
 Monthly Live Looker Support
 + $3999 per month recurring
-+ Chat with a real human Looker SME 9AM to 5PM, M-F, CST 
-+ The entire Looker ecosystem: instance, LookML, SQL, Git 
-+ Time to First Response: Urgent < 30 min, Normal < 2 hrs 
-+ Monthly report of issues, performance, best practices 
-+ Comes with five Lookernomicon seats
-+ Pause or Cancel Anytime.
++ Expert Looker support 9AM-5PM CST (M-F)
++ Full ecosystem: Instance, LookML, SQL, Git
++ Priority response: Urgent < 30min, Normal < 2hrs
++ Monthly performance & best practices report
++ Includes five Lookernomicon seats
++ Pause or Cancel Anytime
 https://buy.stripe.com/14kbKdcfTai85uo7su
 
 Weekly Live Looker Support
 + $999 per week recurring
-+ Chat with a real human Looker SME 9AM to 5PM, M-F
-+ The entire Looker ecosystem: instance, LookML, SQL, Git 
-+ Time to First Response: Urgent < 30 min, Normal < 2 hrs
-+ Comes with two Lookernomicon seats 
-+ Pause or Cancel Anytime.
++ Expert Looker support 9AM-5PM (M-F)
++ Full ecosystem coverage
++ Priority response times
++ Includes two Lookernomicon seats
++ Flexible weekly commitment
++ Pause or Cancel Anytime
 https://buy.stripe.com/fZe4hL6Vz8a0bSMbIL"
 
 ## Legal Section (Accordion)

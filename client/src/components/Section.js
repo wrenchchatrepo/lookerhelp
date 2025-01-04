@@ -2,24 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledSection = styled.section`
-  padding: 2rem;
+  padding: 1.8rem;
   max-width: 1200px;
   margin: 0 auto;
   background-color: var(--background);
   
   /* Reduce spacing between sections */
   & + & {
-    margin-top: 2rem;
+    margin-top: 1.8rem;
   }
 
   @media (max-width: 768px) {
-    padding: 1.5rem 1rem;
+    padding: 1.35rem 0.9rem;
   }
 `;
 
 const SectionTitle = styled.h2`
   color: var(--accent-purple);
-  margin-bottom: 2rem;
+  margin-bottom: 1.8rem;
   font-family: "Architects Daughter", cursive;
   font-size: 17px;
 `;

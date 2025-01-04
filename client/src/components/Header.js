@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
 
@@ -71,7 +71,7 @@ const NavButton = styled.button`
   }
 
   &.active {
-    color: var(--header-select);
+    color: #39FF14;
   }
 `;
 
@@ -91,7 +91,35 @@ const HamburgerButton = styled.button`
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
   const { user, signIn, signOut } = useAuth();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 100;
+
+      // Check if we're at the top of the page
+      if (scrollPosition < window.innerHeight / 2) {
+        setActiveSection('home');
+        return;
+      }
+
+      // Check pricing section
+      const pricingElement = document.getElementById('pricing');
+      if (pricingElement) {
+        const { top, bottom } = pricingElement.getBoundingClientRect();
+        const elementTop = top + window.scrollY;
+        const elementBottom = bottom + window.scrollY;
+        
+        if (scrollPosition >= elementTop && scrollPosition < elementBottom) {
+          setActiveSection('pricing');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   
   const scrollToSection = (id) => {
     const element = document.getElementById(id);
@@ -114,6 +142,7 @@ const Header = () => {
       behavior: 'smooth'
     });
     setIsMenuOpen(false);
+    setActiveSection('home');
   };
   
   // In demo mode (no Firebase config), simulate auth
@@ -143,10 +172,32 @@ const Header = () => {
         />
         
         <Nav className={isMenuOpen ? 'open' : ''}>
-          <NavButton onClick={scrollToTop}>LookerHelp</NavButton>
-          <NavButton onClick={() => scrollToSection('pricing')}>Pricing</NavButton>
-          <NavButton onClick={() => scrollToSection('booking')}>Booking</NavButton>
-          <NavButton onClick={() => scrollToSection('legal')}>Legal</NavButton>
+          <NavButton 
+            onClick={scrollToTop}
+            className={activeSection === 'home' ? 'active' : ''}
+          >
+            LookerHelp
+          </NavButton>
+          <NavButton 
+            onClick={() => scrollToSection('pricing')}
+            className={activeSection === 'pricing' ? 'active' : ''}
+          >
+            Pricing
+          </NavButton>
+          <NavButton 
+            onClick={() => window.open('https://calendar.google.com/calendar/appointments/AcZssZ0guI3g_XQX8oJTb5nb4lAjUxWzDdPSot2BRgU=?gv=true', '_blank')}
+          >
+            Booking
+          </NavButton>
+          <NavButton 
+            onClick={() => {
+              scrollToSection('legal');
+              setActiveSection('legal');
+            }}
+            className={activeSection === 'legal' ? 'active' : ''}
+          >
+            Legal
+          </NavButton>
           
           {user ? (
             <NavButton onClick={handleSignOut}>

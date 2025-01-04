@@ -39,7 +39,7 @@ const LegalText = styled.div`
 
 const Legal = () => {
   return (
-    <Section title="Legal and Policies">
+    <Section id="legal" title="Legal and Policies">
       <Accordion title="Terms of Service">
         <LegalText>
           <h3>Last Updated: January 2, 2025</h3>

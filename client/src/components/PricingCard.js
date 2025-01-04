@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const Card = styled.div`
   background-color: var(--card-bg);
   border-radius: 8px;
-  padding: 2rem;
+  padding: 1.8rem;
   text-align: center;
   font-size: 11px;
   display: flex;
@@ -14,7 +14,7 @@ const Card = styled.div`
 
 const Title = styled.h3`
   color: var(--accent-purple);
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   font-family: "Architects Daughter", cursive;
   font-size: 17px;
 `;
@@ -22,18 +22,18 @@ const Title = styled.h3`
 const Price = styled.div`
   font-size: 24px;
   font-weight: bold;
-  margin-bottom: 1rem;
+  margin-bottom: 0.9rem;
   color: var(--primary-text);
 `;
 
 const FeatureList = styled.ul`
   list-style: none;
   padding: 0;
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.8rem 0;
   flex-grow: 1;
 
   li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.45rem;
     line-height: 1.4;
     
     &:before {

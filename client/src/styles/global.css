@@ -31,7 +31,7 @@ html {
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: "Architects Daughter", cursive;
   font-size: 13px;
   line-height: 1.5;
   color: var(--primary-text);
@@ -39,8 +39,7 @@ body {
 }
 
 h1, h2 {
-  font-family: "Architects Daughter", cursive;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 h1 {
@@ -57,12 +56,12 @@ h2 {
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 2rem;
+  padding: 0 1rem;
 }
 
 .section {
-  padding: 4rem 2rem;
-  margin: 2rem auto;
+  padding: 2rem 1rem;
+  margin: 1rem auto;
   max-width: 1200px;
   background-color: var(--background);
   border-radius: 8px;
@@ -100,14 +99,14 @@ h2 {
 
 /* Utility Classes */
 .text-center { text-align: center; }
-.mt-1 { margin-top: 0.5rem; }
-.mt-2 { margin-top: 1rem; }
-.mt-3 { margin-top: 1.5rem; }
-.mt-4 { margin-top: 2rem; }
-.mb-1 { margin-bottom: 0.5rem; }
-.mb-2 { margin-bottom: 1rem; }
-.mb-3 { margin-bottom: 1.5rem; }
-.mb-4 { margin-bottom: 2rem; }
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 0.75rem; }
+.mt-4 { margin-top: 1rem; }
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 0.75rem; }
+.mb-4 { margin-bottom: 1rem; }
 
 .hidden {
   display: none;
@@ -127,11 +126,11 @@ h2 {
 /* Responsive Design */
 @media (max-width: 768px) {
   .section {
-    padding: 2rem 1rem;
-    margin: 1rem;
+    padding: 1rem 0.5rem;
+    margin: 0.5rem;
   }
   
   .container {
-    padding: 0 1rem;
+    padding: 0 0.5rem;
   }
 }

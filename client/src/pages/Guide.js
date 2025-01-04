@@ -8,8 +8,6 @@ const Guide = () => {
     setActiveSection(activeSection === section ? null : section);
   };
 
-  const welcomeMessage = `Welcome to the LookerHelp User Guide. This comprehensive resource will help you navigate our platform and make the most of our services.`;
-
   const sections = [
     {
       id: 'getting-started',
@@ -115,7 +113,6 @@ const Guide = () => {
   return (
     <div className="guide-page">
       <h2 className="section-title">LookerHelp User Guide</h2>
-      <p className="welcome-message">{welcomeMessage}</p>
       <div className="accordion">
         {sections.map(section => (
           <div key={section.id} className="accordion-item">
