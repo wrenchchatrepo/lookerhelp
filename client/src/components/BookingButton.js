@@ -8,7 +8,7 @@ const BookingContainer = styled.div`
 
 const CTAText = styled.p`
   margin-bottom: 0.5rem;
-  font-size: 12px;
+  font-size: 19px;
   color: var(--accent-purple);
 `;
 
@@ -37,6 +37,11 @@ const BookingButton = () => {
             url: 'https://calendar.google.com/calendar/appointments/AcZssZ0guI3g_XQX8oJTb5nb4lAjUxWzDdPSot2BRgU=?gv=true',
             color: '2cff05',
             label: 'Book an appointment',
+            css: {
+              fontSize: '19px',
+              backgroundColor: 'var(--header-bg)',
+              color: '#39FF14'
+            }
           });
         } catch (error) {
           console.error('Error initializing calendar button:', error);
@@ -77,11 +82,12 @@ const BookingButton = () => {
           style={{
             display: 'inline-block',
             padding: '10px 20px',
-            backgroundColor: '#2cff05',
-            color: '#000',
+            backgroundColor: 'var(--header-bg)',
+            color: '#39FF14',
             textDecoration: 'none',
             borderRadius: '4px',
-            marginTop: '10px'
+            marginTop: '10px',
+            fontSize: '19px'
           }}
         >
           Book an appointment

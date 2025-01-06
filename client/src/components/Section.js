@@ -5,7 +5,7 @@ const StyledSection = styled.section`
   padding: 1.8rem;
   max-width: 1200px;
   margin: 0 auto;
-  background-color: var(--background);
+  background-color: var(--main-bg);
   
   /* Reduce spacing between sections */
   & + & {

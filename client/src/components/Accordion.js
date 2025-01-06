@@ -5,7 +5,7 @@ const AccordionContainer = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   margin-bottom: 1rem;
-  background-color: var(--card-bg);
+  background-color: var(--main-bg);
 `;
 
 const AccordionHeader = styled.button`
@@ -28,7 +28,7 @@ const AccordionContent = styled.div`
   max-height: 0;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
-  background-color: white;
+  background-color: var(--main-bg);
 
   &.open {
     padding: 1rem;

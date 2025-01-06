@@ -2,9 +2,26 @@ import React from 'react';
 import styled from 'styled-components';
 
 const Card = styled.div`
-  background-color: var(--card-bg);
+  background-color: var(--main-bg);
   border-radius: 8px;
   padding: 1.8rem;
+  border: 1px solid;
+
+  &:has(.lookernomicon) {
+    border-color: var(--accent-purple);
+  }
+
+  &:has(.monthly-support) {
+    border-color: var(--accent-pink);
+  }
+
+  &:has(.weekly-hours) {
+    border-color: var(--accent-green);
+  }
+
+  &:has(.weekly-support) {
+    border-color: var(--accent-cyan);
+  }
   text-align: center;
   font-size: 19px;
   display: flex;

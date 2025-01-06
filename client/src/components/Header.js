@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
+import ThemeToggle from './ThemeToggle';
 
 const HeaderContainer = styled.header`
   position: fixed;
@@ -20,6 +21,13 @@ const HeaderContent = styled.div`
   display: flex;
   align-items: center;
   padding: 0 1rem;
+  gap: 1rem;
+`;
+
+const HeaderControls = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 `;
 
 const Logo = styled.img`
@@ -55,7 +63,7 @@ const Nav = styled.nav`
 const NavButton = styled.button`
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
-  background-color: #333333;
+  background-color: var(--header-bg);
   color: var(--header-text);
   text-decoration: none;
   transition: opacity 0.2s;
@@ -210,12 +218,15 @@ const Header = () => {
           )}
         </Nav>
         
-        <HamburgerButton 
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          ☰
-        </HamburgerButton>
+        <HeaderControls>
+          <ThemeToggle />
+          <HamburgerButton 
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label="Toggle menu"
+          >
+            ☰
+          </HamburgerButton>
+        </HeaderControls>
       </HeaderContent>
     </HeaderContainer>
   );

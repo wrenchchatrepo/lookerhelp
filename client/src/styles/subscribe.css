@@ -1,6 +1,6 @@
 .subscription-container {
   padding: 20px;
-  background-color: #F0E8F3;
+  background-color: var(--main-bg);
   min-height: 100vh;
 }
 
@@ -12,17 +12,16 @@
 }
 
 .plan-card {
-  background: white;
+  background: var(--main-bg);
   padding: 12px;
   border-radius: 8px;
   text-align: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .subscribe-button {
   display: inline-block;
   padding: 6px 12px;
-  background-color: #39FF14;
+  background-color: var(--main-bg);
   color: #19171A;
   text-decoration: none;
   border-radius: 4px;

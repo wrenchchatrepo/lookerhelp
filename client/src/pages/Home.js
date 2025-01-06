@@ -7,7 +7,7 @@ import PricingCard from '../components/PricingCard';
 
 const Hero = styled(Section)`
   text-align: center;
-  background-color: white;
+  background-color: var(--main-bg);
   padding-top: 4rem;
 `;
 
