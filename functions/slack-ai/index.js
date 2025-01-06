@@ -1,10 +1,6 @@
 const { App } = require('@slack/bolt');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { BigQuery } = require('@google-cloud/bigquery');
-
-// Initialize Gemini
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+const axios = require('axios');
 
 // Initialize BigQuery
 const bigquery = new BigQuery({
@@ -16,6 +12,9 @@ const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
 });
+
+// Vertex AI Agent webhook URL
+const VERTEX_WEBHOOK_URL = 'https://dialogflow.cloud.google.com/v1/cx/locations/us-central1/integrations/slack/webhook/projects/miguelai/agents/d27f2462-5527-4091-9362-8b8455f9a753/integrations/9b7c8882-a552-4ab4-9f0d-d98872a82f41';
 
 // Verify subscription status
 async function verifySubscription(email) {
@@ -34,6 +33,23 @@ async function verifySubscription(email) {
 
   const [rows] = await bigquery.query(options);
   return rows.length > 0;
+}
+
+// Forward message to Vertex AI Agent
+async function forwardToVertexAgent(message, userId, threadTs) {
+  try {
+    const response = await axios.post(VERTEX_WEBHOOK_URL, {
+      message: {
+        text: message,
+        user: userId,
+        thread_ts: threadTs
+      }
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Vertex AI Agent Error:', error);
+    throw error;
+  }
 }
 
 // Handle direct messages and mentions
@@ -59,16 +75,8 @@ app.event('app_mention', async ({ event, say }) => {
     // Remove the bot mention from the prompt
     const prompt = event.text.replace(/<@[A-Z0-9]+>/, '').trim();
 
-    // Get response from Gemini
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
-
-    // Send response back to Slack
-    await say({
-      text: text,
-      thread_ts: event.thread_ts || event.ts
-    });
+    // Forward to Vertex AI Agent
+    await forwardToVertexAgent(prompt, event.user, event.thread_ts || event.ts);
   } catch (error) {
     console.error('Error:', error);
     await say({
@@ -100,14 +108,8 @@ app.event('message', async ({ event, say }) => {
       return;
     }
 
-    const result = await model.generateContent(event.text);
-    const response = await result.response;
-    const text = response.text();
-
-    await say({
-      text: text,
-      thread_ts: event.thread_ts || event.ts
-    });
+    // Forward to Vertex AI Agent
+    await forwardToVertexAgent(event.text, event.user, event.thread_ts || event.ts);
   } catch (error) {
     console.error('Error:', error);
     await say({

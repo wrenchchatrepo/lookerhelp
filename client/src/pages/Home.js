@@ -1,9 +1,22 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaLinkedin } from 'react-icons/fa';
 import Section from '../components/Section';
 import Accordion from '../components/Accordion';
 import BookingButton from '../components/BookingButton';
 import PricingCard from '../components/PricingCard';
+
+const SocialIcon = styled.a`
+  color: var(--accent-purple);
+  font-size: 1.5rem;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--accent-pink);
+  }
+`;
 
 const Hero = styled(Section)`
   text-align: center;
@@ -150,7 +163,17 @@ const Home = () => {
       </Hero>
 
       <Section id="about" title="About">
-        <p>Dion Edge is a Looker expert and creator of Lookernomicon, an AI-powered resource for Looker professionals, and a former Looker from Santa Cruz and the Department of Customer Love. With deep expertise in LookML, data modeling, and BI strategy, Dion brings extensive experience as a data engineer and AI/ML solution architect. A nuts-and-bolts engineer with 20 years of hands-on experience, rooted in computational methods, Dion's background spans from BI to advanced analytics, focusing on problems with non-obvious solutions. He is dedicated to empowering data teams through innovative, efficient approaches to complex challenges.</p>
+        <p>
+          Dion Edge is a Looker expert and creator of Lookernomicon, an AI-powered resource for Looker professionals, and a former Looker from Santa Cruz and the Department of Customer Love. With deep expertise in LookML, data modeling, and BI strategy, Dion brings extensive experience as a data engineer and AI/ML solution architect. A nuts-and-bolts engineer with 20 years of hands-on experience, rooted in computational methods, Dion's background spans from BI to advanced analytics, focusing on problems with non-obvious solutions. He is dedicated to empowering data teams through innovative, efficient approaches to complex challenges.
+          <SocialIcon 
+            href="https://linkedin.com/in/dionedge" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            aria-label="LinkedIn Profile"
+          >
+            <FaLinkedin />
+          </SocialIcon>
+        </p>
       </Section>
 
       <Section id="services" title="Services">

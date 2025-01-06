@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looker Help Assistant</title>
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/themes/df-messenger-default.css">
+    <script src="https://www.gstatic.com/dialogflow-console/fast/df-messenger/prod/v1/df-messenger.js"></script>
+    <script src="https://apis.google.com/js/platform.js"></script>
+    <script>
+        // Initialize Google OAuth
+        function initGoogleAuth() {
+            gapi.load('auth2', function() {
+                gapi.auth2.init({
+                    client_id: '111636325594322174003'
+                }).then(function() {
+                    console.log('Google Auth initialized');
+                });
+            });
+        }
+
+        // Check if user is authorized
+        function checkAuthorizedUser() {
+            const auth2 = gapi.auth2.getAuthInstance();
+            if (!auth2.isSignedIn.get()) {
+                auth2.signIn().then(function() {
+                    validateEmail();
+                });
+                return false;
+            }
+            return validateEmail();
+        }
+
+        // Validate user email
+        function validateEmail() {
+            const user = gapi.auth2.getAuthInstance().currentUser.get();
+            const profile = user.getBasicProfile();
+            const email = profile.getEmail();
+            
+            // Only allow your email
+            if (email !== 'dion@wrench.chat') {
+                document.body.innerHTML = 'Access Denied';
+                return false;
+            }
+            return true;
+        }
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Google Sans', Arial, sans-serif;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 15px;
+            background-color: #e8f0fe;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+        .info {
+            color: #666;
+            line-height: 1.6;
+        }
+        df-messenger {
+            z-index: 999;
+            position: fixed;
+            --df-messenger-font-color: #000;
+            --df-messenger-font-family: 'Google Sans', sans-serif;
+            --df-messenger-chat-background: #f3f6fc;
+            --df-messenger-message-user-background: #d3e3fd;
+            --df-messenger-message-bot-background: #fff;
+            bottom: 16px;
+            right: 16px;
+        }
+    </style>
+</head>
+<body onload="initGoogleAuth()">
+    <div class="container">
+        <h1>Looker Help Assistant Test Environment</h1>
+        
+        <div class="status">
+            <strong>Status:</strong> Active and ready for testing
+        </div>
+
+        <div class="info">
+            <p>This is a test environment for the Looker Help Assistant. The chat widget in the bottom right corner provides:</p>
+            <ul>
+                <li>LookML assistance</li>
+                <li>Looker dashboard guidance</li>
+                <li>BigQuery integration help</li>
+                <li>General Looker ecosystem support</li>
+            </ul>
+            <p>Use this environment to test interactions and verify responses before deploying to production.</p>
+        </div>
+    </div>
+
+    <!-- Vertex AI Agent Integration -->
+    <df-messenger
+        oauth-client-id="111636325594322174003"
+        access-token-name="google_access_token"
+        onload="checkAuthorizedUser()"
+        location="us-central1"
+        project-id="miguelai"
+        agent-id="d27f2462-5527-4091-9362-8b8455f9a753"
+        language-code="en"
+        max-query-length="-1"
+        allow-feedback="all">
+        <df-messenger-chat-bubble
+            chat-title="Agent_Looker">
+        </df-messenger-chat-bubble>
+    </df-messenger>
+</body>
+</html>

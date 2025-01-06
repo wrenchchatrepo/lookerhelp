@@ -1,5 +1,6 @@
 {
-  "hosting": {
+  "hosting": [{
+    "target": "production",
     "public": "build",
     "ignore": [
       "firebase.json",
@@ -32,5 +33,19 @@
         ]
       }
     ]
-  }
+  }, {
+    "target": "test",
+    "public": "test",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }]
 }

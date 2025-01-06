@@ -1,70 +1,211 @@
-# Getting Started with Create React App
+# LookerHelp MVP
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A single-page application for LookerHelp with Google OAuth authentication and Stripe payment integration.
 
-## Available Scripts
+## Architecture
 
-In the project directory, you can run:
+- Frontend: Create React App (CRA)
+- Authentication: Server-side Google OAuth flow
+- Data Storage: BigQuery
+- Hosting: Firebase Hosting
+- Backend: Cloud Functions
+- Payments: Stripe Payment Links
 
-### `npm start`
+## Quick Start
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Install Dependencies:
+```bash
+# Install frontend dependencies
+cd client
+npm install
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# Install Cloud Functions dependencies
+cd ../functions
+npm install
+```
 
-### `npm test`
+2. Environment Setup:
+```bash
+# Frontend (.env)
+REACT_APP_GOOGLE_CLIENT_ID=your_client_id
+REACT_APP_API_URL=your_cloud_function_url
+REACT_APP_STRIPE_PAYMENT_LINK_WEEKLY_LIVE=https://buy.stripe.com/fZe4hL6Vz8a0bSMbIL
+REACT_APP_STRIPE_PAYMENT_LINK_MONTHLY_LIVE=https://buy.stripe.com/14kbKdcfTai85uo7su
+REACT_APP_STRIPE_PAYMENT_LINK_WEEKLY_OFFICE=https://buy.stripe.com/7sIg0tbbP1LC8GA3cd
+REACT_APP_STRIPE_PAYMENT_LINK_APP=https://buy.stripe.com/3cs7tX4Nrcqg2ic9AE
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+# Cloud Functions (.env)
+GOOGLE_OAUTH_CLIENT_ID=your_client_id
+GOOGLE_OAUTH_CLIENT_SECRET=your_client_secret
+JWT_SECRET=your_jwt_secret
+FRONTEND_URL=http://localhost:3000
+```
 
-### `npm run build`
+3. Development:
+```bash
+# Start frontend
+cd client
+npm start
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Start Cloud Functions locally
+cd functions
+npm run serve
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. Deployment:
+```bash
+# Deploy frontend
+cd client
+npm run build
+firebase deploy --only hosting
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Deploy functions
+cd ../functions
+firebase deploy --only functions
+```
 
-### `npm run eject`
+## Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+lookerhelp/
+├── client/                    # Frontend (CRA)
+│   ├── src/
+│   │   ├── components/       # React components
+│   │   ├── styles/          # CSS files
+│   │   └── App.js           # Main app component
+│   └── public/              # Static files
+├── functions/                # Cloud Functions
+│   ├── auth/                # Auth functions
+│   └── bigquery_setup.sql   # BigQuery schema
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+1. Authentication
+   - Server-side Google OAuth flow
+   - JWT session management
+   - User data stored in BigQuery
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+2. Subscription Management
+   - Direct Stripe payment links
+   - Subscription status tracking
+   - BigQuery integration
 
-## Learn More
+3. Security
+   - CORS configuration
+   - Security headers
+   - IAM roles and permissions
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Development Guide
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. Frontend Development
+   - Components in `client/src/components`
+   - Styles in `client/src/styles`
+   - Environment variables in `client/.env`
 
-### Code Splitting
+2. Cloud Functions
+   - Auth handlers in `functions/auth`
+   - Environment variables in `functions/.env`
+   - BigQuery setup in `functions/bigquery_setup.sql`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Monitoring & Maintenance
 
-### Analyzing the Bundle Size
+1. Cloud Functions Dashboard
+   - Monitor function execution
+   - View logs and errors
+   - Track performance
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2. BigQuery Console
+   - Query user data
+   - Monitor subscription status
+   - Run analytics
 
-### Making a Progressive Web App
+3. Firebase Hosting
+   - View deployment status
+   - Monitor CDN performance
+   - SSL certificate management
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Troubleshooting
 
-### Advanced Configuration
+1. OAuth Issues
+   - Verify credentials in Google Cloud Console
+   - Check authorized domains
+   - Validate redirect URIs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+2. BigQuery Errors
+   - Verify table schemas
+   - Check IAM permissions
+   - Validate query syntax
 
-### Deployment
+3. Deployment Issues
+   - Check Firebase configuration
+   - Verify environment variables
+   - Review build logs
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Security Considerations
 
-### `npm run build` fails to minify
+1. Authentication
+   - Server-side OAuth flow
+   - Secure JWT implementation
+   - HTTP-only cookies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. Data Storage
+   - BigQuery IAM roles
+   - Encrypted data at rest
+   - Access logging
+
+3. API Security
+   - CORS configuration
+   - Rate limiting
+   - Security headers
+
+## Deployment Checklist
+
+1. Prerequisites
+   - [ ] Google Cloud project setup
+   - [ ] Firebase project created
+   - [ ] Google OAuth credentials configured
+   - [ ] BigQuery dataset created
+   - [ ] Stripe payment links ready
+
+2. Environment Configuration
+   - [ ] Frontend .env file configured
+   - [ ] Cloud Functions .env file configured
+   - [ ] Firebase project settings updated
+   - [ ] Google OAuth redirect URIs set
+
+3. BigQuery Setup
+   - [ ] Users table created
+   - [ ] Subscriptions table created
+   - [ ] Test data verified
+   - [ ] IAM permissions configured
+
+4. Frontend Deployment
+   - [ ] Dependencies installed
+   - [ ] Build successful
+   - [ ] Firebase hosting configured
+   - [ ] SSL certificate active
+
+5. Backend Deployment
+   - [ ] Dependencies installed
+   - [ ] Cloud Functions deployed
+   - [ ] Environment variables set
+   - [ ] CORS configured
+
+6. Testing
+   - [ ] OAuth flow working
+   - [ ] Subscription links accessible
+   - [ ] BigQuery logging verified
+   - [ ] Error handling tested
+
+7. Monitoring
+   - [ ] Cloud Logging enabled
+   - [ ] Error reporting configured
+   - [ ] Performance monitoring active
+   - [ ] Billing alerts set
+
+8. Documentation
+   - [ ] API endpoints documented
+   - [ ] Environment setup guide complete
+   - [ ] Deployment process documented
+   - [ ] Troubleshooting guide available

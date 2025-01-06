@@ -1,0 +1,21 @@
+{
+  "projects": {
+    "default": "miguelai"
+  },
+  "targets": {
+    "miguelai": {
+      "hosting": {
+        "main": [
+          "miguelai"
+        ],
+        "test": [
+          "test-miguelai"
+        ],
+        "production": [
+          "lookerhelp"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

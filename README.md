@@ -1,211 +1,104 @@
-# LookerHelp MVP
+# Lookernomicon AI Agent
 
-A single-page application for LookerHelp with Google OAuth authentication and Stripe payment integration.
+The Lookernomicon is an advanced AI agent specializing in Looker and LookML expertise, providing real-time assistance through Slack integration. Built on Google's Vertex AI and Dialogflow CX, it combines deep domain knowledge with natural language understanding to help teams solve complex Looker challenges.
 
-## Architecture
+## Framework Architecture
 
-- Frontend: Create React App (CRA)
-- Authentication: Server-side Google OAuth flow
-- Data Storage: BigQuery
-- Hosting: Firebase Hosting
-- Backend: Cloud Functions
-- Payments: Stripe Payment Links
+The Lookernomicon leverages a sophisticated multi-layer AI framework:
 
-## Quick Start
+1. **Core AI Engine**
+   - Powered by Google's Vertex AI Agent (Agent_Looker)
+   - Enhanced by Gemini 2.0 for advanced language understanding
+   - Integrated through Dialogflow CX for natural conversation flow
 
-1. Install Dependencies:
-```bash
-# Install frontend dependencies
-cd client
-npm install
+2. **Knowledge Base**
+   - Comprehensive Looker documentation
+   - LookML best practices and patterns
+   - Common troubleshooting scenarios
+   - Performance optimization strategies
 
-# Install Cloud Functions dependencies
-cd ../functions
-npm install
-```
+3. **Integration Layer**
+   - Slack-native interface
+   - Real-time subscription verification
+   - Secure message handling
+   - Thread management
 
-2. Environment Setup:
-```bash
-# Frontend (.env)
-REACT_APP_GOOGLE_CLIENT_ID=your_client_id
-REACT_APP_API_URL=your_cloud_function_url
-REACT_APP_STRIPE_PAYMENT_LINK_WEEKLY_LIVE=https://buy.stripe.com/fZe4hL6Vz8a0bSMbIL
-REACT_APP_STRIPE_PAYMENT_LINK_MONTHLY_LIVE=https://buy.stripe.com/14kbKdcfTai85uo7su
-REACT_APP_STRIPE_PAYMENT_LINK_WEEKLY_OFFICE=https://buy.stripe.com/7sIg0tbbP1LC8GA3cd
-REACT_APP_STRIPE_PAYMENT_LINK_APP=https://buy.stripe.com/3cs7tX4Nrcqg2ic9AE
+## Using Lookernomicon in Slack
 
-# Cloud Functions (.env)
-GOOGLE_OAUTH_CLIENT_ID=your_client_id
-GOOGLE_OAUTH_CLIENT_SECRET=your_client_secret
-JWT_SECRET=your_jwt_secret
-FRONTEND_URL=http://localhost:3000
-```
+### Getting Started
 
-3. Development:
-```bash
-# Start frontend
-cd client
-npm start
+1. **Access**
+   - Must have an active LookerHelp subscription
+   - Bot available in your Slack workspace
+   - Can be used in direct messages or channels
 
-# Start Cloud Functions locally
-cd functions
-npm run serve
-```
+2. **Interaction Methods**
+   - Direct Message: Start a 1:1 conversation with @Lookernomicon
+   - Channel Mention: Tag @Lookernomicon in any channel
+   - Thread Replies: Continue conversations in threads
 
-4. Deployment:
-```bash
-# Deploy frontend
-cd client
-npm run build
-firebase deploy --only hosting
+### Example Use Cases
 
-# Deploy functions
-cd ../functions
-firebase deploy --only functions
-```
+1. **LookML Assistance**
+   ```
+   @Lookernomicon How do I create a derived table with incremental processing?
+   ```
 
-## Project Structure
+2. **Troubleshooting**
+   ```
+   @Lookernomicon Why is my PDT build failing with error XYZ?
+   ```
 
-```
-lookerhelp/
-├── client/                    # Frontend (CRA)
-│   ├── src/
-│   │   ├── components/       # React components
-│   │   ├── styles/          # CSS files
-│   │   └── App.js           # Main app component
-│   └── public/              # Static files
-├── functions/                # Cloud Functions
-│   ├── auth/                # Auth functions
-│   └── bigquery_setup.sql   # BigQuery schema
-```
+3. **Best Practices**
+   ```
+   @Lookernomicon What's the best way to implement row-level security?
+   ```
 
-## Features
+### Features
 
-1. Authentication
-   - Server-side Google OAuth flow
-   - JWT session management
-   - User data stored in BigQuery
+- Real-time responses to Looker questions
+- Code snippets and examples
+- Best practice recommendations
+- Performance optimization tips
+- Error troubleshooting
+- Documentation references
 
-2. Subscription Management
-   - Direct Stripe payment links
-   - Subscription status tracking
-   - BigQuery integration
+## Technical Implementation
 
-3. Security
-   - CORS configuration
-   - Security headers
-   - IAM roles and permissions
+The Lookernomicon is implemented as a Cloud Function that:
 
-## Development Guide
+1. Receives messages through Slack's Events API
+2. Verifies user subscription status in BigQuery
+3. Processes queries through Vertex AI/Dialogflow CX
+4. Returns contextualized responses via Slack
 
-1. Frontend Development
-   - Components in `client/src/components`
-   - Styles in `client/src/styles`
-   - Environment variables in `client/.env`
+### Security & Privacy
 
-2. Cloud Functions
-   - Auth handlers in `functions/auth`
-   - Environment variables in `functions/.env`
-   - BigQuery setup in `functions/bigquery_setup.sql`
+- Subscription verification for each request
+- Secure token handling
+- Environment variable configuration
+- Audit logging
+- BigQuery-based access control
 
-## Monitoring & Maintenance
+## Getting Help
 
-1. Cloud Functions Dashboard
-   - Monitor function execution
-   - View logs and errors
-   - Track performance
+If you encounter any issues or need support:
 
-2. BigQuery Console
-   - Query user data
-   - Monitor subscription status
-   - Run analytics
+1. Technical Issues: Contact support@lookerhelp.com
+2. Subscription Questions: Visit lookerhelp.com/pricing
+3. Feature Requests: Submit through the feedback channel
 
-3. Firebase Hosting
-   - View deployment status
-   - Monitor CDN performance
-   - SSL certificate management
+## Contributing
 
-## Troubleshooting
+The Lookernomicon is continuously learning and improving. We welcome:
 
-1. OAuth Issues
-   - Verify credentials in Google Cloud Console
-   - Check authorized domains
-   - Validate redirect URIs
+- Feature suggestions
+- Use case examples
+- Documentation improvements
+- Bug reports
 
-2. BigQuery Errors
-   - Verify table schemas
-   - Check IAM permissions
-   - Validate query syntax
+Submit contributions through our GitHub repository or feedback channels.
 
-3. Deployment Issues
-   - Check Firebase configuration
-   - Verify environment variables
-   - Review build logs
+## License
 
-## Security Considerations
-
-1. Authentication
-   - Server-side OAuth flow
-   - Secure JWT implementation
-   - HTTP-only cookies
-
-2. Data Storage
-   - BigQuery IAM roles
-   - Encrypted data at rest
-   - Access logging
-
-3. API Security
-   - CORS configuration
-   - Rate limiting
-   - Security headers
-
-## Deployment Checklist
-
-1. Prerequisites
-   - [ ] Google Cloud project setup
-   - [ ] Firebase project created
-   - [ ] Google OAuth credentials configured
-   - [ ] BigQuery dataset created
-   - [ ] Stripe payment links ready
-
-2. Environment Configuration
-   - [ ] Frontend .env file configured
-   - [ ] Cloud Functions .env file configured
-   - [ ] Firebase project settings updated
-   - [ ] Google OAuth redirect URIs set
-
-3. BigQuery Setup
-   - [ ] Users table created
-   - [ ] Subscriptions table created
-   - [ ] Test data verified
-   - [ ] IAM permissions configured
-
-4. Frontend Deployment
-   - [ ] Dependencies installed
-   - [ ] Build successful
-   - [ ] Firebase hosting configured
-   - [ ] SSL certificate active
-
-5. Backend Deployment
-   - [ ] Dependencies installed
-   - [ ] Cloud Functions deployed
-   - [ ] Environment variables set
-   - [ ] CORS configured
-
-6. Testing
-   - [ ] OAuth flow working
-   - [ ] Subscription links accessible
-   - [ ] BigQuery logging verified
-   - [ ] Error handling tested
-
-7. Monitoring
-   - [ ] Cloud Logging enabled
-   - [ ] Error reporting configured
-   - [ ] Performance monitoring active
-   - [ ] Billing alerts set
-
-8. Documentation
-   - [ ] API endpoints documented
-   - [ ] Environment setup guide complete
-   - [ ] Deployment process documented
-   - [ ] Troubleshooting guide available
+The Lookernomicon is a proprietary service of LookerHelp. Usage is subject to our terms of service and active subscription status.
