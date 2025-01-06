@@ -13,8 +13,28 @@
   --primary-text: #333333;
   --background: #E0E0E0;
   --card-bg: #F0E8F3;
+  --shadow-color: rgba(0, 0, 0, 0.1);
   
   /* Accent Colors */
+  --accent-pink: #FF13F0;
+  --accent-purple: #B026FF;
+  --accent-cyan: #00FEFC;
+  --accent-green: #39FF14;
+  
+  /* Text Colors */
+  --header-text: #E0E0E0;
+  --header-select: #39FF14;
+}
+
+/* Dark Theme */
+[data-theme="dark"] {
+  --header-bg: #121212;
+  --primary-text: #E0E0E0;
+  --background: #121212;
+  --card-bg: #1E1E1E;
+  --shadow-color: rgba(255, 255, 255, 0.05);
+  
+  /* Keep accent colors the same for visual consistency */
   --accent-pink: #FF13F0;
   --accent-purple: #B026FF;
   --accent-cyan: #00FEFC;
@@ -68,7 +88,7 @@ h2 {
   max-width: 1200px;
   background-color: var(--background);
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 /* Animations */
