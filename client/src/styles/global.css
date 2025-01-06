@@ -1,5 +1,4 @@
-/* Import Architect's Daughter font */
-@import url('https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap');
+/* Base Styles */
 
 /* Reset & Base Styles */
 * {
@@ -31,8 +30,8 @@ html {
 }
 
 body {
-  font-family: "Architects Daughter", cursive;
-  font-size: 13px;
+  font-family: var(--font-primary);
+  font-size: 19px;
   line-height: 1.5;
   color: var(--primary-text);
   background-color: var(--background);
@@ -43,24 +42,28 @@ h1, h2 {
 }
 
 h1 {
-  font-size: 23px;
+  font-family: var(--font-headings);
+  font-size: 37px;
   color: var(--accent-pink);
+  font-weight: 700;
 }
 
 h2 {
-  font-size: 17px;
+  font-family: var(--font-headings);
+  font-size: 29px;
   color: var(--accent-purple);
+  font-weight: 600;
 }
 
 /* Layout */
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
 }
 
 .section {
-  padding: 2rem 1rem;
+  padding: 1rem 0.5rem;
   margin: 1rem auto;
   max-width: 1200px;
   background-color: var(--background);
@@ -126,11 +129,11 @@ h2 {
 /* Responsive Design */
 @media (max-width: 768px) {
   .section {
-    padding: 1rem 0.5rem;
+    padding: 0.5rem 0.25rem;
     margin: 0.5rem;
   }
   
   .container {
-    padding: 0 0.5rem;
+    padding: 0 0.25rem;
   }
 }

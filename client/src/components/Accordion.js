@@ -17,8 +17,8 @@ const AccordionHeader = styled.button`
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  font-family: "Architects Daughter", cursive;
-  font-size: 17px;
+  font-family: var(--font-headings);
+  font-size: 23px;
   color: var(--accent-purple);
   text-align: left;
 `;

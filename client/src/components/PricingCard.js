@@ -6,7 +6,7 @@ const Card = styled.div`
   border-radius: 8px;
   padding: 1.8rem;
   text-align: center;
-  font-size: 11px;
+  font-size: 19px;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -15,8 +15,9 @@ const Card = styled.div`
 const Title = styled.h3`
   color: var(--accent-purple);
   margin-bottom: 0.9rem;
-  font-family: "Architects Daughter", cursive;
-  font-size: 17px;
+  font-family: var(--font-headings);
+  font-size: 23px;
+  font-weight: 600;
 `;
 
 const Price = styled.div`

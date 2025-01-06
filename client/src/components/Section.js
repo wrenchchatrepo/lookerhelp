@@ -20,14 +20,15 @@ const StyledSection = styled.section`
 const SectionTitle = styled.h2`
   color: var(--accent-purple);
   margin-bottom: 1.8rem;
-  font-family: "Architects Daughter", cursive;
-  font-size: 17px;
+  font-family: var(--font-headings);
+  font-size: 23px;
+  font-weight: 600;
 `;
 
 const SectionContent = styled.div`
   max-width: 800px;
   margin: 0 auto;
-  font-size: 13px;
+  font-size: 19px;
   color: var(--primary-text);
   line-height: 1.5;
 `;

@@ -60,11 +60,11 @@ const NavButton = styled.button`
   text-decoration: none;
   transition: opacity 0.2s;
   border: none;
-  font-size: 13px;
+  font-size: 23px;
   cursor: pointer;
   text-align: center;
   min-width: 100px;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family: var(--font-primary);
 
   &:hover {
     opacity: 0.9;

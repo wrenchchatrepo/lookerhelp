@@ -1,5 +1,5 @@
 .subscription-container {
-  padding: 40px;
+  padding: 20px;
   background-color: #F0E8F3;
   min-height: 100vh;
 }
@@ -7,13 +7,13 @@
 .plans-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 20px;
-  margin-top: 40px;
+  gap: 10px;
+  margin-top: 20px;
 }
 
 .plan-card {
   background: white;
-  padding: 24px;
+  padding: 12px;
   border-radius: 8px;
   text-align: center;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -21,7 +21,7 @@
 
 .subscribe-button {
   display: inline-block;
-  padding: 12px 24px;
+  padding: 6px 12px;
   background-color: #39FF14;
   color: #19171A;
   text-decoration: none;
@@ -35,23 +35,27 @@
 }
 
 .price {
-  font-size: 24px;
+  font-family: var(--font-headings);
+  font-size: 37px;
   color: #2D2926;
-  margin: 16px 0;
+  margin: 8px 0;
+  font-weight: 700;
 }
 
 h1 {
   color: #19171A;
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 }
 
 h2 {
   color: #2D2926;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 p {
+  font-family: var(--font-primary);
   color: #333333;
   line-height: 1.5;
+  font-size: 19px;
 }

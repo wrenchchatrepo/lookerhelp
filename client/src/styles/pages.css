@@ -1,14 +1,15 @@
 /* Common styles */
 .section-title {
   color: #B026FF;
-  font-size: 17px;
-  font-family: 'Architect\'s Daughter', cursive;
-  margin-bottom: 2rem;
+  font-size: 23px;
+  font-family: var(--font-headings);
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 /* Pricing page */
 .pricing-page {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .product-cards {
@@ -20,7 +21,7 @@
 
 .product-card {
   background-color: #F0E8F3;
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 8px;
   display: flex;
   flex-direction: column;
@@ -29,22 +30,23 @@
 
 .product-card h3 {
   color: #333333;
-  font-size: 17px;
-  font-family: 'Architect\'s Daughter', cursive;
+  font-size: 23px;
+  font-family: var(--font-headings);
+  font-weight: 600;
 }
 
 .product-card p {
   color: #333333;
-  font-size: 11px;
+  font-size: 19px;
 }
 
 .subscribe-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.375rem 0.75rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
-  font-family: 'Architect\'s Daughter', cursive;
-  font-size: 11px;
+  font-family: var(--font-primary);
+  font-size: 19px;
   transition: opacity 0.2s;
 }
 
@@ -74,14 +76,14 @@
 
 /* Booking page */
 .booking-page {
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
 }
 
 .booking-cta {
   color: #333333;
-  font-size: 13px;
-  margin-bottom: 2rem;
+  font-size: 19px;
+  margin-bottom: 1rem;
 }
 
 .calendar-container {
@@ -92,20 +94,20 @@
 .calendar-container button {
   background-color: #19171A !important;
   color: #F0E8F3 !important;
-  font-size: 11px !important;
-  font-family: 'Architect\'s Daughter', cursive !important;
+  font-size: 19px !important;
+  font-family: var(--font-primary) !important;
 }
 
 /* Guide page */
 .guide-page {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .welcome-message {
   color: #333333;
-  font-size: 13px;
+  font-size: 19px;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .guide-page ol,
@@ -124,7 +126,7 @@
 
 /* Legal page */
 .legal-page {
-  padding: 2rem;
+  padding: 1rem;
 }
 
 .accordion {
@@ -138,14 +140,15 @@
 
 .accordion-header {
   width: 100%;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: #333333;
   border: none;
   border-radius: 4px;
   color: #E0E0E0;
-  font-family: 'Architect\'s Daughter', cursive;
-  font-size: 17px;
+  font-family: var(--font-headings);
+  font-size: 23px;
   text-align: left;
+  font-weight: 600;
   cursor: pointer;
   display: flex;
   justify-content: space-between;
@@ -168,10 +171,10 @@
 
 .accordion-content {
   display: none;
-  padding: 1rem;
+  padding: 0.5rem;
   background-color: #F0E8F3;
   color: #333333;
-  font-size: 13px;
+  font-size: 19px;
   border-bottom-left-radius: 4px;
   border-bottom-right-radius: 4px;
 }
