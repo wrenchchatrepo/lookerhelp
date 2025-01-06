@@ -26,6 +26,23 @@
   * ✅ Production URLs defined (miguelai.web.app)
   * ✅ Function URLs obtained
 
+### 3. Slack-AI Integration (IN PROGRESS)
+- **Status**: 🔄 Implementation in Progress
+- **Impact**: Core feature for user interaction
+- **Dependencies**: 
+  * ✅ BigQuery tables configured
+  * ✅ Subscription system active
+- **Required Setup**:
+  * ✅ Function code created with Gemini 2
+  * ⏸️ Environment variables needed:
+    - SLACK_BOT_TOKEN
+    - SLACK_SIGNING_SECRET
+    - GOOGLE_AI_API_KEY
+  * ⏸️ Slack App configuration updates:
+    - Update webhook URL
+    - Configure event subscriptions
+  * ⏸️ Deploy and test integration
+
 ## Critical Path Sequence
 
 1. **Environment Setup**
@@ -61,7 +78,33 @@
    - Next Steps:
      1. ⏸️ Test OAuth flow (Ready to test at https://miguelai.web.app)
      2. 🔄 Verify subscription checks (Testing in progress - payment links activated)
-     3. ⏸️ Test Slack integration (Ready to test notifications)
+     3. 🔄 Slack Integration (New implementation):
+        * ✅ Function code created with Gemini 2 integration
+        * ⏸️ Deploy and configure environment variables
+        * ⏸️ Update Slack app webhook URL
+        * ⏸️ Test AI responses and subscription verification
+
+## Integration Points
+
+1. Frontend → Cloud Functions
+   - OAuth authentication
+   - Subscription verification
+
+2. Cloud Functions → BigQuery
+   - User data storage
+   - Subscription tracking
+   - Activity logging
+
+3. Stripe → Cloud Storage → BigQuery
+   - Payment processing
+   - Subscription data sync
+   - Usage tracking
+
+4. Slack ↔ Cloud Functions ↔ Gemini
+   - User messages processing
+   - AI-powered responses
+   - Subscription verification
+   - Error handling
 
 ## Bottleneck Analysis
 
@@ -69,27 +112,30 @@
 Integration Testing is the current critical bottleneck:
 - OAuth flow verification needed
 - Subscription check verification required
-- Slack integration testing pending
+- Slack-AI integration deployment pending
 
 ### Secondary Bottlenecks
 1. Performance Optimization:
    - Load testing needed
    - Response time verification
+   - AI model latency assessment
 
 ## Resolution Path
 
 1. **Immediate Actions**
-   - Test OAuth flow end-to-end
-   - Verify subscription checks
-   - Test Slack integration
+   - Configure Slack environment variables
+   - Deploy Slack-AI function
+   - Update Slack app webhook URL
 
 2. **Next Steps**
-   - Load testing and performance verification
-   - Monitor error rates and response times
+   - Test OAuth flow end-to-end
+   - Verify subscription checks
+   - Test Slack-AI integration
 
 3. **Final Steps**
    - Enable production monitoring
    - Document testing results
+   - Performance optimization
 
 ## Timeline Dependencies
 
@@ -100,7 +146,7 @@ gantt
     section Testing
     OAuth Flow Testing :crit, active, 2023-12-02, 1d
     Subscription Checks :2023-12-02, 1d
-    Slack Integration :2023-12-02, 1d
+    Slack-AI Integration :2023-12-02, 2d
     section Performance
     Load Testing    :2023-12-03, 1d
     Monitoring     :2023-12-03, 1d
@@ -110,11 +156,13 @@ gantt
 
 ### High Risk
 - Integration testing failures
-- Performance under load
+- AI model performance
+- Subscription verification accuracy
 
 ### Medium Risk
 - Integration testing issues
 - Performance bottlenecks
+- Error handling coverage
 
 ### Low Risk
 - SSL/Domain configuration
@@ -129,4 +177,5 @@ gantt
 4. ✅ Frontend updated with function URLs
 5. ⏸️ OAuth flow verified
 6. 🔄 Subscription verification in testing
-7. ❌ Slack integration tested
+7. 🔄 Slack-AI integration implementation
+8. ⏸️ End-to-end testing complete
