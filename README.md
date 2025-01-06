@@ -29,6 +29,7 @@ The Lookernomicon leverages a sophisticated multi-layer AI framework:
 
 1. **Access**
    - Must have an active LookerHelp subscription
+   - **Important**: You must accept an invitation to join the lookernomicon.slack.com workspace
    - Bot available in your Slack workspace
    - Can be used in direct messages or channels
 
@@ -80,11 +81,19 @@ The Lookernomicon is implemented as a Cloud Function that:
 - Audit logging
 - BigQuery-based access control
 
+## RAG Datastores
+
+The Lookernomicon utilizes the following datastores for its Retrieval-Augmented Generation (RAG) functionality:
+
+- **Looker**: Core documentation and technical specifications
+- **BigQuery**: Performance data and historical query patterns
+- **Looker Studio**: Visualization templates and reporting best practices
+
 ## Getting Help
 
 If you encounter any issues or need support:
 
-1. Technical Issues: Contact support@lookerhelp.com
+1. Technical Issues: Contact support@wrench.chat
 2. Subscription Questions: Visit lookerhelp.com/pricing
 3. Feature Requests: Submit through the feedback channel
 

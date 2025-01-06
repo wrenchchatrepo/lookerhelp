@@ -55,9 +55,9 @@ gcp-key.json
 .env.test.local
 .env.production.local
 .aider*
-.aider.tags.cache.v3/
-archived/
 dev/
-scrapped/
+functions/
 .aider.chat.history.md
 .aider.input.history
+archived/
+scrapped/
