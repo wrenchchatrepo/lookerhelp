@@ -21,7 +21,8 @@ GCP_SERVICE_ACCOUNT_KEY_PATH = "/Users/dionedge/dev/creds/miguelai-29ab64d034a3.
 GOOGLE_ANALYTICS_PROPERTY_ID = "446440745"
 VERTEX_AI_AGENT = "Agent_Looker"
 VERTEX_AI_ID = "d27f2462-5527-4091-9362-8b8455f9a753"
-VERTEX_AI_SLACK_WEBHOOK = "https://dialogflow.cloud.google.com/v1/cx/locations/us-central1/integrations/slack/webhook/projects/miguelai/agents/d27f2462-5527-4091-9362-8b8455f9a753/integrations/9b7c8882-a552-4ab4-9f0d-d98872a82f41"
+# Available in .env file
+# VERTEX_AI_SLACK_WEBHOOK
 # Available in .env file
 # GEMINI_API_KEY
 # GOOGLE_OAUTH_CLIENT_ID
@@ -61,8 +62,8 @@ COMPANY_OWNER = "Isabella Edge"
 SLACK_WORKSPACE = "LOOKERNOMICON.SLACK.COM"
 SLACK_APP_ID = "A0860L8F87R"
 SLACK_APP_CREATION_DATE = "December 24, 2024"
-SLACK_DIALOGFLOW = "https://dialogflow.cloud.google.com/v1/cx/locations/us-central1/integrations/slack/webhook/projects/miguelai/agents/d27f2462-5527-4091-9362-8b8455f9a753/integrations/9b7c8882-a552-4ab4-9f0d-d98872a82f41"
-SLACK_WEBHOOK_URL = "https://hooks.slack.com/services/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"
+# Available in .env file
+# SLACK_WEBHOOK_URL
 SLACK_EMBED_BUTTON = """<a href="https://slack.com/oauth/v2/authorize?client_id=6578284753109.8204688518263&scope=app_mentions:read,chat:write,commands,groups:history,groups:read,groups:write,im:history,im:read,im:write,incoming-webhook,mpim:history,reactions:read,users:read,canvases:write,channels:history,assistant:write&user_scope=channels:history,channels:read,groups:history,groups:read,im:history,im:read,im:write,mpim:history,mpim:read,reactions:read,users:read,users:read.email,chat:write"><img alt="Add to Slack" height="40" width="139" src="https://platform.slack-edge.com/img/add_to_slack.png" srcSet="https://platform.slack-edge.com/img/add_to_slack.png 1x, https://platform.slack-edge.com/img/add_to_slack@2x.png 2x" /></a>"""
 SLACK_APP_MANIFEST = {
     "display_information": {
@@ -84,7 +85,7 @@ SLACK_APP_MANIFEST = {
         "slash_commands": [
             {
                 "command": "/lono",
-                "url": "https://dialogflow.cloud.google.com/v1/cx/locations/us-central1/integrations/slack/webhook/projects/miguelai/agents/d27f2462-5527-4091-9362-8b8455f9a753/integrations/9b7c8882-a552-4ab4-9f0d-d98872a82f41",
+                "url": "VERTEX_AI_SLACK_WEBHOOK",  # Value loaded from .env
                 "description": "Launches Looker_Agent",
                 "should_escape": False
             }
@@ -139,7 +140,7 @@ SLACK_APP_MANIFEST = {
     },
     "settings": {
         "event_subscriptions": {
-            "request_url": "https://dialogflow.cloud.google.com/v1/cx/locations/us-central1/integrations/slack/webhook/projects/miguelai/agents/d27f2462-5527-4091-9362-8b8455f9a753/integrations/9b7c8882-a552-4ab4-9f0d-d98872a82f41",
+            "request_url": "VERTEX_AI_SLACK_WEBHOOK",  # Value loaded from .env
             "bot_events": [
                 "app_mention",
                 "assistant_thread_started",

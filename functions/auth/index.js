@@ -2,7 +2,11 @@ const {BigQuery} = require('@google-cloud/bigquery');
 const {OAuth2Client} = require('google-auth-library');
 const jwt = require('jsonwebtoken');
 
-const bigquery = new BigQuery();
+// Initialize BigQuery with service account
+const bigquery = new BigQuery({
+  projectId: process.env.GCP_PROJECT_ID,
+  keyFilename: process.env.GCP_SERVICE_ACCOUNT_KEY_PATH
+});
 const oauth2Client = new OAuth2Client(process.env.GOOGLE_OAUTH_CLIENT_ID);
 
 // CORS and security middleware
@@ -65,7 +69,7 @@ exports.handleGoogleAuth = async (req, res) => {
       // Generate JWT
       const sessionToken = jwt.sign(
         {email, name, picture},
-        process.env.JWT_SECRET,
+        process.env.GOOGLE_OAUTH_CLIENT_SECRET, // Using OAuth secret as JWT secret
         {expiresIn: '24h'}
       );
       
@@ -84,11 +88,10 @@ exports.verifySubscription = async (req, res) => {
       const {email} = req.body;
       
       // Query BigQuery for subscription status
-      // Data flows: Stripe -> Cloud Storage -> BigQuery
       const query = `
         WITH stripe_data AS (
           SELECT *
-          FROM \`miguelai.lookerhelp.stripe_subscriptions\`
+          FROM \`${process.env.GCP_BIGQUERY_DS}.stripe_subscriptions\`
           WHERE customer_email = @email
           AND status = 'active'
           AND current_period_end > CURRENT_TIMESTAMP()

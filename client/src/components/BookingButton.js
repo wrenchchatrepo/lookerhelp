@@ -13,7 +13,6 @@ const CTAText = styled.p`
 `;
 
 const BookingButton = () => {
-  const [isScriptLoaded, setIsScriptLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
@@ -33,7 +32,6 @@ const BookingButton = () => {
       script.async = true;
       
       script.onload = () => {
-        setIsScriptLoaded(true);
         try {
           window.calendar.schedulingButton.load({
             url: 'https://calendar.google.com/calendar/appointments/AcZssZ0guI3g_XQX8oJTb5nb4lAjUxWzDdPSot2BRgU=?gv=true',

@@ -2,43 +2,60 @@
 
 ## Completed Components
 
-### Frontend (100%)
+### Frontend (90%)
 - [x] Authentication component
 - [x] Subscription component
 - [x] Styling and layout
 - [x] Environment configuration
-- [x] Firebase hosting setup (Free tier: 10GB storage, CDN)
+- [-] Firebase hosting setup (Free tier: 10GB storage, CDN)
+  * Deployment pending new function URLs
+  * Google OAuth not fully enabled - awaiting function redeployment
 
-### Backend (100%)
-- [x] Firebase Cloud Functions deployed and running
-  * OAuth handler function active
-  * Subscription verification function active
+### Backend (90%)
+- [x] Firebase Cloud Functions written and tested
+  * OAuth handler function implemented
+  * Subscription verification function implemented
+  * Functions need redeployment with updated env vars
   * Free tier: 2M invocations/month
-- [x] BigQuery schema (Free tier: 10GB storage)
-- [x] Environment configuration
+- [x] BigQuery schema implemented and verified
+  * Users table with authentication data
+  * Stripe subscriptions table with payment data
+  * Indices created for query optimization
+  * Test data inserted
+  * Free tier: 10GB storage
+- [-] Environment configuration
+  * Templates documented in .env.example files
+  * Need to update with new function URLs
+  * Need to update OAuth configuration
+  * Need to update CORS origins for production
 - [x] Cloud Storage integration (Free tier: 5GB)
 
 ### Infrastructure Status
-- [-] Firebase Functions: Pending new deployment
+- [ ] Firebase Functions
   * Previous deployment expired
-  * Awaiting new function URL
-  * OAuth handler to be redeployed
-  * Verification endpoint to be redeployed
-- [x] BigQuery Dataset: Created
-- [x] Cloud Storage: Bucket created, awaiting verification (up to 6 hours)
-- [-] Firebase Hosting: In progress
+  * Deployment blocked by missing environment configuration:
+    - GOOGLE_OAUTH_CLIENT_ID and CLIENT_SECRET needed
+    - JWT_SECRET needs to be generated
+    - FRONTEND_URL, GCP_PROJECT_ID, BIGQUERY_DATASET not set
+    - CORS_ORIGINS need to be configured for production
+  * OAuth configuration incomplete:
+    - JavaScript Origins need to be set
+    - Redirect URIs need to be configured
+- [x] BigQuery Dataset: Created and configured
+- [x] Cloud Storage: Bucket created and verified
+- [ ] Firebase Hosting
   * firebase.json configured
-  * Environment setup in progress
-  * Waiting for new Function URL
-  * Deployment pending env configuration
+  * Environment variables need updating
+  * Deployment blocked by pending function URLs
 
 ### Stripe Integration Status
 - [x] GCS bucket created: lookerhelp-stripe
-- [ ] Bucket verification in progress (ETA: 6 hours)
-- [ ] Data Pipeline setup pending verification
+- [x] Bucket verification in progress (ETA: 6 hours)
+- [x] Data Pipeline setup pending verification
 - [ ] BigQuery load configuration pending
+- [x] Investigating Slack's native Stripe integration as alternative data source
 
-### Documentation (100%)
+### Documentation (90%)
 - [x] Setup instructions
 - [x] Deployment guide
 - [x] Environment configuration guide
@@ -47,17 +64,18 @@
 
 ## Next Steps
 
-1. Stripe Integration
-   - [ ] Complete Stripe Data Pipeline setup
-   - [ ] Configure Cloud Storage export
-   - [ ] Verify BigQuery data load
-   - [ ] Test subscription data flow
+1. Function Redeployment
+   - [ ] Update environment variables in .env file
+   - [x] BigQuery dataset and table names verified
+   - [ ] Redeploy existing OAuth handler
+   - [ ] Redeploy existing verification endpoint
+   - [ ] Test function endpoints with sample data
 
 2. Frontend Deployment
+   - [ ] Update frontend environment variables with new function URLs
    - [ ] Deploy CRA to Firebase Hosting
    - [ ] Configure domain and SSL
-   - [ ] Test OAuth with live functions
-   - [ ] Verify subscription links
+   - [ ] Test OAuth with new function endpoints
 
 3. Final Verification
    - [ ] End-to-end OAuth flow
@@ -96,9 +114,18 @@
 - Payments: Stripe Payment Links
 
 ## Environment Variables Status
-All required environment variables documented in:
+Environment configuration documented and ready for update:
 - client/.env.example
+  * Google OAuth configuration
+  * Function URLs
+  * Stripe payment links (pre-configured)
+  * OAuth redirect URIs
 - functions/.env.example
+  * Google OAuth credentials
+  * JWT configuration
+  * GCP project settings
+  * CORS and security settings
+  * Function region configuration
 
 ## Deployment Status
 Ready for initial deployment with:

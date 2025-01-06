@@ -79,10 +79,10 @@ const Layout = ({ children }) => {
           </FooterSection>
           <FooterSection>
             <h3>Quick Links</h3>
-            <a onClick={() => scrollToSection('guide')}>Guide</a>
-            <a onClick={() => scrollToSection('pricing')}>Pricing</a>
-            <a onClick={() => scrollToSection('booking')}>Booking</a>
-            <a onClick={() => scrollToSection('legal')}>Legal</a>
+            <a href="#guide" onClick={(e) => { e.preventDefault(); scrollToSection('guide'); }}>Guide</a>
+            <a href="#pricing" onClick={(e) => { e.preventDefault(); scrollToSection('pricing'); }}>Pricing</a>
+            <a href="#booking" onClick={(e) => { e.preventDefault(); scrollToSection('booking'); }}>Booking</a>
+            <a href="#legal" onClick={(e) => { e.preventDefault(); scrollToSection('legal'); }}>Legal</a>
           </FooterSection>
           <FooterSection>
             <h3>Contact</h3>
